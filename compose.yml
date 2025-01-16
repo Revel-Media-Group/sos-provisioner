@@ -1,0 +1,9 @@
+---
+services:
+  ansible:
+    build: docker/ansible
+    container_name: ansible
+    network_mode: host
+    volumes:
+      - .:/root/sos-provisioner
+      - ~/.ssh:/root/.ssh

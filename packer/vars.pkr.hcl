@@ -18,15 +18,15 @@ variable "ssh_private_key_file" {
 variable "efi_firmware" {
     type = map(string) 
     default = {
-        code = "/usr/share/edk2-ovmf/OVMF_CODE.fd"
-        vars = "/usr/share/edk2-ovmf/OVMF_VARS.fd"
+        code = "/opt/homebrew/share/qemu/edk2-x86_64-code.fd"
+        vars = "/opt/homebrew/share/qemu/edk2-vars.fd"
     }
 }
 
-variable "gentoo_iso" {
+variable "iso" {
     type = map(string)
     default = {
-        url = "https://mirror.bytemark.co.uk/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal-20240923T191858Z.iso"
-        checksum = "sha256:7918a6f1e30a5e6f4c5c57713f141d3f7a316e2ce6b2a5a944848182d0b974ba"
+        url = "https://download.fedoraproject.org/pub/alt/iot/41/IoT/aarch64/iso/Fedora-IoT-ostree-41-20241027.0.aarch64.iso"
+        checksum = "sha256:bc2e40243d26afb3470e8e6f5db721adb47042aecee55bf90236c1b2d801b29f"
     }
 }

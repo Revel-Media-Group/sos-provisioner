@@ -29,7 +29,7 @@ done
 dnf repolist | grep SignageOS &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Registering SignageOS repository"
-    dnf config-manager --add-repo https://linux-package-repository.signageos.io/fedora/signageos.repo
+    dnf config-manager addrepo --from-repofile=https://linux-package-repository.signageos.io/fedora/signageos.repo
 fi
 
 # Check signageos-server is running

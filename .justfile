@@ -11,6 +11,13 @@ deps:
     ansible-galaxy collection install -r requirements.yml
     packer init packer
 
+
+# runs the ansible host
+host:
+    docker compose up -d
+    docker exec -it ansible zsh
+
+
 # creates/copies ssh keys to hosts
 ssh $command *$options='':
     #!/usr/bin/env bash
@@ -34,6 +41,21 @@ vagrant $command *$options='':
         ln -sf $VAGRANT_ANSIBLE_INV inventory/vagrant
     else
         vagrant $command $options
+    fi
+
+
+# packer (reset|debug|build) $target $options
+packer $command $target='packer' *$options='':
+    #!/usr/bin/env bash
+    if [[ $command == "reset" ]]; then
+        [[ -d ./packer/output/ ]] && rm -rf packer/output
+        packer init $options $target
+    elif [[ $command == "debug" ]]; then
+        PACKER_LOG=1 just packer build $target -on-error=ask
+    elif [[ $command == "build" ]]; then
+        packer build -force -on-error=ask $options $target
+    else
+        packer $command $options $target
     fi
 
 # ansible-vault alias 
