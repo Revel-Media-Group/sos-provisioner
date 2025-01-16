@@ -1,0 +1,6 @@
+/.vaultpass
+/packer/output
+/inventory/*
+!/inventory/*/
+!/inventory/group_vars/*/
+!/inventory/host_vars/*/

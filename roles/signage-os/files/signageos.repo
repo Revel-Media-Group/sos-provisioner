@@ -1,0 +1,16 @@
+# SignageOS RPM package repository
+[SignageOS]
+name=SignageOS $releasever - $basearch
+failovermethod=priority
+baseurl=https://linux-package-repository.signageos.io/fedora/35/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://linux-package-repository.signageos.io/fedora/RPM-GPG-KEY-signageos
+
+[SignageOS-Devel]
+name=SignageOS Devel $releasever - $basearch
+baseurl=https://linux-package-repository.signageos.io/fedora/devel/35/x86_64
+enabled=0
+gpgcheck=1
+gpgkey=https://linux-package-repository.signageos.io/fedora/RPM-GPG-KEY-signageos
+

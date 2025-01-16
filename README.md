@@ -1,12 +1,14 @@
 # SinageOS Player Provisioner
 
 a packer project that provisions a bootable image running linux
-bootstrapping a chromium in kiosk mode as start. the goal is to
+bootstrapping a chromium in kiosk mode at start. the goal is to
 make setup and provisioning players as painless as flashing an ISO to
 a disk. no technical know-how, high re-producability and low churn.
 
+maybe we can use PXE server to bootstrap the various devices over the network too?
+
 since sinageOS is literally just a node app that runs on top of chromium:
 
-- \[\] let's use [fedora IOT](https://fedoraproject.org/iot/) as our base
-- \[\] that uses [packer](https://www.packer.io/) to create the images
-- \[\] and configuring what we need on the distro using [ansible](https://docs.ansible.com/ansible/latest/index.html)
+- [ ] let's use [fedora IOT](https://fedoraproject.org/iot/) as our base
+- [ ] that uses [packer](https://www.packer.io/) to create the images
+- [ ] and configuring what we need on the distro using [ansible](https://docs.ansible.com/ansible/latest/index.html)

@@ -1,0 +1,4 @@
+---
+collections:
+  - name: community.general.dnf_config_manager
+    version: latest

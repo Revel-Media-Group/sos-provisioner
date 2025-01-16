@@ -1,0 +1,22 @@
+---
+- name: upgrade/update system
+  dnf:
+    name: '*'
+    state: latest
+
+- name: install signageos repository
+  dnf_config_manager:
+    name: https://linux-package-repository.signageos.io/fedora/signageos.repo
+    state: present
+
+- name: install signageos server
+  package:
+    name: signageos-fedora.x86_64
+    state: latest
+
+- name: configure singageos server
+  ansible.builtin.template:
+    src: etc/signageos/singageos.config.j2
+    dest: /etc/signageos/singageos.conf
+    owner: root
+    group: root

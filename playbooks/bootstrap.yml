@@ -1,0 +1,55 @@
+---
+- hosts: all
+  become: true
+  remote_user: root
+  tasks:
+    - name: add ansible group
+      tags: always
+      group:
+        name: ansible
+        gid: 1001
+        state: present
+
+    - name: add ansible user
+      tags: always
+      user:
+        name: ansible
+        uid: 1001
+        groups:
+          - ansible
+          - wheel
+
+    - name: add ssh key for ansbile user
+      tags: always
+      authorized_key:
+        user: ansible
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/ansible.pub') }}"
+
+    - name: 700 ~/.ssh/
+      file:
+        path: /home/ansible/.ssh/
+        owner: ansible
+        group: ansible
+        state: directory
+        mode: 700
+
+    - name: 600 ~/.ssh/authorized_keys
+      file:
+        path: /home/ansible/.ssh/authorized_keys
+        owner: ansible
+        group: ansible
+        mode: 600
+
+    - name: create /etc/sudoers.d/ folder
+      file:
+        path: /etc/sudoers.d
+        state: directory
+
+    - name: add ansible user to sudoers
+      tags: always
+      copy:
+        src: sudoers/ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 0440
