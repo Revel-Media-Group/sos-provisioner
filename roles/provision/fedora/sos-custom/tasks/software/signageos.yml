@@ -1,21 +1,15 @@
 ---
-# - name: upgrade/update system
-#   command: dnf upgrade --refresh
-
 - name: copy singageos.repo to /etc/yum.repos.d/singageos.repo
   copy:
     src: signageos.repo
     dest: /etc/yum.repos.d/signageos.repo
 
-#- name: install singageos repository
-#  command: |
-#    dnf config-manager addrepo --from-repofile=/etc/yum.repos.d/signageos.repo
-
 - name: install singageos server
+  # for some reason, package is breaking on dnf :(
+  # package:
+  #   name: signageos-fedora.x86_64
+  #   state: latest
   command: dnf install -y signageos-fedora.x86_64
-
-- name: install cage
-  command: dnf install -y cage
 
 - name: configure singageos server
   ansible.builtin.template:
@@ -24,8 +18,20 @@
     owner: root
     group: root
 
-- name: enable/start sinageos server
-  ansible.builtin.service:
+- name: enable/start sinageos-server.service
+  service:
     name: signageos-server
     enabled: true
     state: started
+
+- name: install custom chromium.sh
+  copy:
+    src: chromium.sh
+    dest: /sbin/chromium.sh
+    mode: '0700'
+
+- name: disable gdm
+  service:
+    name: gdm
+    enabled: false
+    state: stopped

@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: true
-  remote_user: root
+  remote_user: '{{ user }}'
   tasks:
     - name: add ansible group
       tags: always
@@ -17,7 +17,6 @@
         uid: 1001
         groups:
           - ansible
-          - wheel
 
     - name: add ssh key for ansbile user
       tags: always

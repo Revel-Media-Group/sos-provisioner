@@ -1,0 +1,9 @@
+---
+- name: download provisioner script
+  ansible.builtin.get_url:
+    url: https://linux-package-repository.signageos.io/ubuntu/provision.sh
+    dest: '{{ ansible_env.HOME }}/provision.sh'
+    mode: '0700'
+
+- name: run the provisioner script
+  command: sudo {{ ansible_env.HOME }}/provision.sh {{ organization_uid }}

@@ -1,0 +1,31 @@
+---
+- name: copy singageos.repo to /etc/yum.repos.d/singageos.repo
+  copy:
+    src: signageos.repo
+    dest: /etc/yum.repos.d/signageos.repo
+
+- name: install singageos server
+  # for some reason, package is breaking on dnf :(
+  # package:
+  #   name: signageos-fedora.x86_64
+  #   state: latest
+  command: dnf install -y signageos-fedora.x86_64
+
+- name: configure singageos server
+  ansible.builtin.template:
+    src: signageos.config.j2
+    dest: /etc/signageos/singageos.conf
+    owner: root
+    group: root
+
+- name: enable/start sinageos-server.service
+  ansible.builtin.service:
+    name: signageos-server
+    enabled: true
+    state: started
+
+- name: install chromium.sh
+  copy:
+    src: chromium.sh
+    dest: /sbin/chromium.sh
+    mode: '0700'

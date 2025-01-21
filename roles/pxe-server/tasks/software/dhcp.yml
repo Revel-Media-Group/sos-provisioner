@@ -1,0 +1,14 @@
+---
+- name: install dhcp-server
+  command: dnf install dhcp-server -y
+
+- name: configure dhcp
+  template:
+    src: dhcp.conf.j2
+    dest: /etc/dhcp/dhcp.conf
+
+- name: enable/start dhcp-server
+  service:
+    name: dhcp
+    state: started
+    enabled: true

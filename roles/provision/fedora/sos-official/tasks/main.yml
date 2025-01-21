@@ -1,0 +1,9 @@
+---
+- name: download provisioner script
+  ansible.builtin.get_url:
+    url: https://o.signageos.io/fedora
+    dest: '{{ ansible_env.HOME }}/provision.sh'
+    mode: '0700'
+
+- name: run the provisioner script
+  command: '{{ ansible_env.HOME }}/provision.sh'

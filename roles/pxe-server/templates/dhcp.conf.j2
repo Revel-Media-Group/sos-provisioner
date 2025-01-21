@@ -1,0 +1,13 @@
+# Set the default lease time and max lease time (in seconds)
+default-lease-time 600;
+max-lease-time 7200;
+
+# Configure the range of IP addresses that DHCP will assign
+subnet 192.168.1.0 netmask 255.255.255.0 {
+    range 192.168.1.100 192.168.1.200;
+    option routers 192.168.1.1;
+    option subnet-mask 255.255.255.0;
+    option domain-name-servers 192.168.1.1;
+    next-server 192.168.1.1;  # IP address of the TFTP server
+    filename "pxelinux.0";     # Bootloader file for PXE
+}

@@ -1,0 +1,13 @@
+---
+- name: install dnsmasq
+  command: dnf install dnsmasq -y
+
+- name: configure dnsmasq
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+
+- name: assign domain
+  template:
+    src: hosts.conf.j2
+    dest: /etc/hosts.conf

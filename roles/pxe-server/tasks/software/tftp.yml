@@ -1,0 +1,19 @@
+---
+- name: install tftp-server
+  command: dnf install tftp-server -y
+
+- name: configure tftp
+  template:
+    src: tftp.j2
+    dest: /etc/xinetd.d/tftp
+
+- name: enable/start tftp-server
+  ansible.builtin.service:
+    name: xinetd
+    state: started
+    enabled: true
+
+- name: create tftp directory
+  ansible.builtin.file:
+    path: /var/lib/tftpboot
+    state: directory

@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name pxe-server;
+
+    location /pxe/ {
+        root /var/www/html;
+        autoindex on;
+    }
+}
