@@ -6,4 +6,4 @@
     mode: '0700'
 
 - name: run the provisioner script
-  command: '{{ ansible_env.HOME }}/provision.sh'
+  command: sh {{ ansible_env.HOME }}/provision.sh

@@ -6,9 +6,10 @@ CHROMIUM_EXECUTABLE="/usr/bin/chromium-browser"
 
 debug_port=9999
 command_args=""
-# need to figure out why this wont work... 
-#command_args="$command_args --ozone-platform=wayland"
 #command_args="$command_args --enable-features=UseOzonePlatform"
+#command_args="$command_args --ozone-platform=wayland"
+command_args="$command_args --disable-features=UseChromeOSDirectVideoDecoder"
+command_args="$command_args --enable-features=AcceleratedVideoDecodeLinuxGL"
 command_args="$command_args --kiosk"
 command_args="$command_args --noerrdialogs"
 command_args="$command_args --disable-features=TranslateUI"
@@ -41,4 +42,3 @@ command_args="$command_args --disable-site-isolation-trials"
 
 
 exec sudo $CHROMIUM_EXECUTABLE $command_args $url
-

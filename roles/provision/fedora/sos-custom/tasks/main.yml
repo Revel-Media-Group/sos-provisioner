@@ -1,31 +1,15 @@
 ---
-- name: copy singageos.repo to /etc/yum.repos.d/singageos.repo
-  copy:
-    src: signageos.repo
-    dest: /etc/yum.repos.d/signageos.repo
 
-- name: install singageos server
-  # for some reason, package is breaking on dnf :(
-  # package:
-  #   name: signageos-fedora.x86_64
-  #   state: latest
-  command: dnf install -y signageos-fedora.x86_64
+# install signageos and there dependencies
+- include_tasks: software/signageos.yml
+- include_tasks: software/codecs.yml
 
-- name: configure singageos server
-  ansible.builtin.template:
-    src: signageos.config.j2
-    dest: /etc/signageos/singageos.conf
-    owner: root
-    group: root
+# configure the system
+- include_tasks: system/users.yml
 
-- name: enable/start sinageos-server.service
-  ansible.builtin.service:
-    name: signageos-server
-    enabled: true
-    state: started
+# configure cage as our kiosk desktop
+- include_tasks: desktop/cage.yml
 
-- name: install chromium.sh
-  copy:
-    src: chromium.sh
-    dest: /sbin/chromium.sh
-    mode: '0700'
+# configure gnome as our support desktop
+- include_tasks: desktop/gnome-xorg.yml
+- include_tasks: software/teamviewer.yml

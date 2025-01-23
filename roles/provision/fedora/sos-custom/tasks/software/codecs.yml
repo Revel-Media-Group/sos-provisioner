@@ -1,14 +1,18 @@
 ---
 - name: Install RPMFusion repositories
   shell: |-
-    sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version | regex_replace('\\..*', '') }}.noarch.rpm \
+    sudo dnf install -y \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version | regex_replace('\\..*', '') }}.noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version | regex_replace('\\..*', '') }}.noarch.rpm
 
 - name: default to use the openh264
   command: sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
 - name: install any additional codecs that may come up
-  command: sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+  command: |-
+    sudo dnf update -y @multimedia \
+      --setopt="install_weak_deps=False" \
+      --exclude=PackageKit-gstreamer-plugin
 
 - name: install non-free driver for intel
-  command: sudo dnf install intel-media-driver
+  command: sudo dnf install intel-media-driver -y
