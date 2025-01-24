@@ -43,4 +43,4 @@
     mode: '0700'
 
 - name: run the provisioner script
-  command: sudo {{ ansible_env.HOME }}/provision.sh {{ organization_uid }}
+  command: sudo {{ ansible_env.HOME }}/provision.sh 12345
