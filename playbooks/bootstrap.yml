@@ -7,14 +7,12 @@
       tags: always
       group:
         name: ansible
-        gid: 1001
         state: present
 
     - name: add ansible user
       tags: always
       user:
         name: ansible
-        uid: 1001
         groups:
           - ansible
 

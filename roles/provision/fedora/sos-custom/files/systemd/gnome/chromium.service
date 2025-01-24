@@ -1,0 +1,13 @@
+[Unit]
+Description=Chromium Kiosk Mode
+After=graphical.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=/usr/sbin/waychromium
+Restart=always
+User=revel
+Group=revel
+
+[Install]
+WantedBy=graphical.target

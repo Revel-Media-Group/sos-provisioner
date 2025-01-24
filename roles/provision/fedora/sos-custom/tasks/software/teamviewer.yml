@@ -1,7 +1,7 @@
 ---
 - name: install teamviewer repository
-  file:
-    src: teamviewer.repo
+  copy:
+    src: repos/teamviewer.repo
     dest: /etc/yum.repos.d/teamviewer.repo
 
 - name: install teamviewer application

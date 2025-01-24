@@ -7,3 +7,11 @@
 
 - name: run the provisioner script
   command: sudo {{ ansible_env.HOME }}/provision.sh {{ organization_uid }}
+
+- name: download teamviewer
+  ansible.builtin.get_url:
+    url: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+    dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
+
+- name: install teamviewer
+  command: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb

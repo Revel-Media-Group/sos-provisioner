@@ -4,12 +4,9 @@
 - include_tasks: software/signageos.yml
 - include_tasks: software/codecs.yml
 
-# configure the system
-- include_tasks: system/users.yml
+# - include_tasks: system/users.yml
+# - include_tasks: desktop/cage.yml
 
-# configure cage as our kiosk desktop
-- include_tasks: desktop/cage.yml
-
-# configure gnome as our support desktop
+# configure gnome to run xorg + install teamviewer
 - include_tasks: desktop/gnome-xorg.yml
 - include_tasks: software/teamviewer.yml

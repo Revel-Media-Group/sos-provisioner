@@ -1,0 +1,30 @@
+---
+- name: install xorg packages
+  command: dnf install @base-x xterm -y
+
+# - name: install /etc/gdm/custom.conf
+#   copy:
+#     src: gdm/custom.conf
+#     dest: /etc/gdm/custom.conf
+
+# - name: install custom chromium.service
+#   copy:
+#     src: systemd/gnome/chromium.service
+#     dest: /etc/systemd/system/chromium.service
+# 
+# - name: install custom waychromium script
+#   copy:
+#     src: systemd/gnome/chromium.service
+#     dest: /usr/sbin/waychromium
+# 
+# - name: enable chromium service
+#   service:
+#     name: chromium
+#     enabled: true
+#     state: started
+
+- name: restart gdm
+  service:
+    name: gdm
+    enabled: true
+    state: restarted

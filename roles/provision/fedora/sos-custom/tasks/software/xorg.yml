@@ -1,3 +1,0 @@
----
-- name: install xorg packages
-  command: dnf install @base-x xterm -y
