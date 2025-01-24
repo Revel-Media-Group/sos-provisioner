@@ -1,9 +1,35 @@
 ---
-- name: update ubuntu
+- name: update ubuntu packages
   command: sudo apt update -y
 
-- name: upgrade ubuntu
+- name: upgrade ubuntu packages
   command: sudo apt upgrade -y
+
+- name: download teamviewer
+  ansible.builtin.get_url:
+    url: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+    dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
+
+- name: install teamviewer
+  command: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb
+
+- name: disable idle screen turnoff
+  command: gsettings set org.gnome.desktop.session idle-delay 0
+
+- name: disable suspend on ac power
+  command: |
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+
+- name: disable suspend on battery
+  command: |
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
+
+- name: set to performance mode
+  command: powerprofilesctl set performance
+
+- name: disable notifications
+  command: |
+    gsettings set com.ubuntu.update-notifier no-show-notifications true
 
 - name: download provisioner script
   ansible.builtin.get_url:
@@ -13,11 +39,3 @@
 
 - name: run the provisioner script
   command: sudo {{ ansible_env.HOME }}/provision.sh {{ organization_uid }}
-
-- name: download teamviewer
-  ansible.builtin.get_url:
-    url: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
-    dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
-
-- name: install teamviewer
-  command: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb
