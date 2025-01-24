@@ -7,11 +7,16 @@
 
 - name: download teamviewer
   ansible.builtin.get_url:
-    url: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+    url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
     dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
 
 - name: install teamviewer
-  command: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb
+  shell: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb || exit 0
+
+- name: configure teamviewer
+  copy:
+    src: global.conf
+    dest: /etc/teamviewer/global.conf
 
 - name: disable idle screen turnoff
   command: gsettings set org.gnome.desktop.session idle-delay 0
