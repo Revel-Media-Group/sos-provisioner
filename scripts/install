@@ -1,0 +1,4 @@
+#!/bin/sh
+sudo cp ./vaultpass /home/revel
+wget -qO- https://tinyurl.com/revelprovi | sudo sh
+

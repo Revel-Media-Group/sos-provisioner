@@ -1,4 +1,8 @@
 ---
+
+- name: fix borked install (because ubuntu is the worst)
+  command: sudo apt --fix-broken install
+
 - name: update ubuntu packages
   command: sudo apt update -y
 

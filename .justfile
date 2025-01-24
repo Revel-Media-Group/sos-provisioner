@@ -71,3 +71,7 @@ ansible-playbook $target *$options='':
     #!/usr/bin/env bash
     ansible-playbook $target $options
     
+
+create_usb:
+    #!/usr/bin/env bash
+    loc=$(diskutil info "$(diskutil list | grep "SENSITIVE" | awk '{print $NF}')" | grep "Device Node:" | awk '{print $3}')
