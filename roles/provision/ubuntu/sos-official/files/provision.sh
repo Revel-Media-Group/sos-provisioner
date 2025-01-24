@@ -52,6 +52,7 @@ if ! apt list --installed 2> /dev/null | grep "chromium-browser" &> /dev/null; t
         add-apt-repository -y ppa:savoury1/chromium
     fi
     apt update
+    apt -y --fix-broken install
     apt install -y chromium-browser
 else
     echo "Found chromium. Skipping the installation"
