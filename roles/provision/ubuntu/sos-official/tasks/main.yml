@@ -20,13 +20,16 @@
     dest: /etc/teamviewer/global.conf
 
 - name: disable idle screen turnoff
+  remote_user: '{{ user }}'
   command: gsettings set org.gnome.desktop.session idle-delay 0
 
 - name: disable suspend on ac power
+  remote_user: '{{ user }}'
   command: |
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
 - name: disable suspend on battery
+  remote_user: '{{ user }}'
   command: |
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
 
