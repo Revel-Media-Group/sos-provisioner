@@ -1,4 +1,10 @@
 ---
+- name: update ubuntu
+  command: sudo apt update -y
+
+- name: upgrade ubuntu
+  command: sudo apt upgrade -y
+
 - name: download provisioner script
   ansible.builtin.get_url:
     url: https://linux-package-repository.signageos.io/ubuntu/provision.sh
