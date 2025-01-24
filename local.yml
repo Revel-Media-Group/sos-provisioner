@@ -1,5 +1,5 @@
 ---
-- hosts: ubuntu-official
+- hosts: all
   become: true
   roles:
     - provision/ubuntu/sos-official
