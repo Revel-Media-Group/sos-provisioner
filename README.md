@@ -5,7 +5,7 @@ you'll first need to install ubuntu
 then open a terminal and type:
 
 ```bash
-sudo sh <(curl -s https://tinyurl.com/bdhh733s)
+wget -qO- https://tinyurl.com/bdhh733s | sudo sh
 ```
 
 press enter and you should be good to go.
