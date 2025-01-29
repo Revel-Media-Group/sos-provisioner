@@ -10,6 +10,7 @@ networks:
 services:
   ansible:
     build: docker/ansible
+    network_mode: host
     container_name: ansible
     volumes:
       - .:/root/sos-provisioner

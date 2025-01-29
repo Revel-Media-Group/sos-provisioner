@@ -67,9 +67,9 @@ ansible-vault $target *$options='':
     ansible-vault $target $options
 
 # ansible-playbook alias 
-ansible-playbook $target *$options='':
+ansible-playbook *$options='':
     #!/usr/bin/env bash
-    ansible-playbook $target $options
+    ./venv/bin/ansible-playbook $options
     
 
 create_usb:

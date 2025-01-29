@@ -1,8 +1,8 @@
 ---
 - name: install teamviewer repository
-  copy:
-    src: repos/teamviewer.repo
-    dest: /etc/yum.repos.d/teamviewer.repo
+  ansible.builtin.get_url:
+    url: https://download.teamviewer.com/download/linux/teamviewer-host.x86_64.rpm
+    dest: '{{ ansible_env.HOME }}/teamviewer-host.x86_64.rpm'
 
 - name: install teamviewer application
-  command: dnf install teamviewer -y
+  shell: dnf install -y {{ ansible_env.HOME }}/teamviewer-host.x86_64.rpm

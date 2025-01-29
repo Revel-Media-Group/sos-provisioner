@@ -1,0 +1,20 @@
+---
+- hosts: fedora-official
+  become: true
+  roles:
+    - provision/fedora/sos-official
+
+- hosts: fedora-custom
+  become: true
+  roles:
+    - provision/fedora/sos-custom
+
+- hosts: ubuntu-official
+  become: true
+  roles:
+    - provision/ubuntu/sos-official
+
+- hosts: pxe-server
+  become: true
+  roles:
+    - pxe-server
