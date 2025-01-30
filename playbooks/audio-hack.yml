@@ -1,0 +1,5 @@
+---
+- hosts: ubuntu-official
+  become: true
+  roles:
+    - provision/ubuntu/audio-hack

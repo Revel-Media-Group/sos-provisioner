@@ -1,0 +1,37 @@
+---
+- name: install pipewire packages
+  package:
+    name:
+      - pipewire-audio-client-libraries
+      - libspa-0.2-bluetooth
+      - libspa-0.2-jack
+      - wireplumber
+      - pipewire-media-session-
+    state: present
+
+- name: copy default ALSA config
+  copy:
+    src: /usr/share/doc/pipewire/examples/alsa.conf.d/99-pipewire-default.conf
+    dest: /etc/alsa/conf.d/99-pipewire-default.conf
+    remote_src: true
+
+- name: copy default JACK config
+  copy:
+    src: /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf
+    dest: /etc/ld.so.conf.d/
+    remote_src: true
+
+- name: run ldconfig
+  command: ldconfig
+
+- name: remove pulseaudio bluetooth
+  package:
+    name: pulseaudio-module-bluetooth
+    state: absent
+
+- name: start wireplumber service
+  ansible.builtin.systemd:
+    name: wireplumber.service
+    user: '{{ user }}'
+    state: started
+    enabled: true

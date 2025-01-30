@@ -51,6 +51,7 @@
   command: |
     gsettings set com.ubuntu.update-notifier no-show-notifications true
 
+  # TODO: move back to upstream script if/when fixed :3
 # - name: download provisioner script
 #   ansible.builtin.get_url:
 #     url: https://linux-package-repository.signageos.io/ubuntu/provision.sh
