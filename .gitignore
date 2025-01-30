@@ -6,3 +6,5 @@
 !/inventory/group_vars/*/
 !/inventory/host_vars/*/
 .DS_Store
+venv
+.venv

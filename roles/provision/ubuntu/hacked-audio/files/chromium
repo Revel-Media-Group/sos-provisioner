@@ -4,4 +4,4 @@ export XAUTHORITY=$(ps aux | grep Xorg | grep -Po 'auth \K[^\s]*' | tail -1)
 export XDG_RUNTIME_DIR=$(echo $XAUTHORITY | cut -f1,2,3,4 -d '/')
 export XDG_USER=$(echo $XAUTHORITY | cut -f4 -d '/')
 
-npm --prefix /home/revel/puppeteer run start
+npm --prefix /srv/puppeteer run start

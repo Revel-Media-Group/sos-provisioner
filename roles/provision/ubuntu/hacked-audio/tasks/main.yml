@@ -1,0 +1,102 @@
+---
+- name: update ubuntu packages
+  command: sudo apt update -y
+
+- name: upgrade ubuntu packages
+  command: sudo apt upgrade -y
+
+- name: download teamviewer
+  ansible.builtin.get_url:
+    url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
+    dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
+
+- name: install teamviewer
+  shell: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb || exit 0
+
+- name: configure teamviewer
+  copy:
+    src: global.conf
+    dest: /etc/teamviewer/global.conf
+
+- name: disable idle screen turnoff
+  command: gsettings set org.gnome.desktop.session idle-delay 0
+  become_user: '{{ user }}'
+  environment:
+    DISPLAY: :0
+    XDG_RUNTIME_DIR: /run/user/1000
+
+- name: disable suspend on ac power
+  remote_user: '{{ user }}'
+  command: |
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+  become_user: '{{ user }}'
+  environment:
+    DISPLAY: :0
+    XDG_RUNTIME_DIR: /run/user/1000
+
+- name: disable suspend on battery
+  remote_user: '{{ user }}'
+  command: |
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
+  become_user: '{{ user }}'
+  environment:
+    DISPLAY: :0
+    XDG_RUNTIME_DIR: /run/user/1000
+
+- name: set to performance mode
+  command: powerprofilesctl set performance
+
+- name: disable notifications
+  command: |
+    gsettings set com.ubuntu.update-notifier no-show-notifications true
+
+- include_tasks: pipewire.yml
+
+  # TODO: move back to upstream script if/when fixed :3
+# - name: download provisioner script
+#   ansible.builtin.get_url:
+#     url: https://linux-package-repository.signageos.io/ubuntu/provision.sh
+#     dest: '{{ ansible_env.HOME }}/provision.sh'
+#     mode: '0700'
+
+- name: copy provisioner script
+  copy:
+    src: provision.sh
+    dest: '{{ ansible_env.HOME }}/provision.sh'
+    mode: '0700'
+
+- name: run the provisioner script
+  command: sudo {{ ansible_env.HOME }}/provision.sh 12345
+
+- name: install chad puppeteer
+  copy:
+    src: puppeteer
+    dest: /srv/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: install chad chromium script
+  copy:
+    src: chromium
+    dest: /usr/bin/revel-chromium
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: npm install puppeteer
+  become: true
+  become_user: '{{ user }}'
+  command: npm --prefix /srv/puppeteer install
+
+- name: npx install chrome
+  become: true
+  become_user: '{{ user }}'
+  shell: yes | npx puppeteer install chrome
+
+- name: copy/replace chromium.service
+  template:
+    src: chromium.service.j2
+    dest: /etc/systemd/system/chromium.service
+
+- name: chown /var/lib/chromium
+  command: chown -R {{ user }}:{{ user }} /var/lib/chromium

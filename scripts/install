@@ -1,4 +1,65 @@
 #!/bin/sh
-sudo cp ./vaultpass /home/revel
-wget -qO- https://tinyurl.com/revelprovi | sudo sh
+export USER=revel
+export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 
+export ANSIBLE_VAULT_PASSWORD_FILE=/${USER}/.vaultpass
+
+
+export USB_VAULT_PATH="./.vaultpass"
+export USB_SSH_PATH="./.ssh"
+
+
+failed () {
+    echo 'Installation failed. Press Enter to exit.'
+    read
+    exit 1
+}
+
+ubuntu () {
+    apt update
+    apt install -y software-properties-common
+    add-apt-repository -y --update ppa:ansible/ansible
+    apt install -y ansible git
+}
+
+setup () {
+    case "$DISTRO" in
+        'ubuntu') ubuntu;;
+        *) echo "Unsupported Distro"; exit 1 ;;
+    esac
+
+    # install .vaultpass file from usb
+    if [ -f "$USB_VAULT_PATH"]; then
+        cp ./.vaultpass /home/${USER}/.vaultpass
+        chmod -x /home/${USER}/.vaultpass
+    else
+        echo "'${USB_VAULT_PATH}' file not found"
+        exit 1
+    fi
+
+    # TODO: when we make the repo private
+    # install .ssh keys from usb
+    # if [ -d "$USB_SSH_PATH" ]; then
+	#     cp ./.ssh /home/${USER}/.ssh
+    #     chmod 700 /home/${USER}/.ssh
+    #     chmod 600 /home/${USER}/.ssh/id_rsa
+    #     chmod 644 /home/${USER}/.ssh/id_rsa.pub
+    # else
+    #     echo "'${USB_SSH_PATH}' folder not found."
+    #     exit 1
+    # fi
+    
+    # pull our ansible playbook from github
+    ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner
+}
+
+
+# actual execution of the script
+if ! command -v pkexec >/dev/null 2>&1; then
+    echo "pkexec is not available. Running install with sudo."
+    sudo setup || failed
+else
+    pkexec setup || failed
+fi
+echo 'Installation complete. Press Enter to exit.'
+read
