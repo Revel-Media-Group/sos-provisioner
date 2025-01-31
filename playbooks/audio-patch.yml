@@ -46,8 +46,8 @@
         state: started
         enabled: true
       loop:
-        - wireplumber.service
-        - pipewire.service
+        - wireplumber
+        - pipewire
 
     - name: software | pipewire | set volume to 50%
       command: pactl set-sink-volume @DEFAULT_SINK@ 50%
