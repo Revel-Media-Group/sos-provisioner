@@ -27,7 +27,7 @@
     name: curl
 
 - name: software | signageos | download nodesource setup script
-  shell: curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+  shell: curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
 
 - name: software | signageos | run nodesource script
   shell: chmod +x nodesource_setup.sh && ./nodesource_setup.sh
