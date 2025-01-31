@@ -32,10 +32,10 @@
     name: pulseaudio
     state: absent
 
-- name: software | pipewire | set volume to 50%
-  command: pactl set-sink-volume @DEFAULT_SINK@ 50%
-
 # he still isn't working :(
+# - name: software | pipewire | set volume to 50%
+#   command: pactl set-sink-volume @DEFAULT_SINK@ 50%
+#
 # - name: software | pipewire | enable services
 #   become: true
 #   become_user: '{{ user }}'
