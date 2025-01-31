@@ -1,3 +1,4 @@
 ---
 user: revel
 organization_uid: ''
+disable_frontend: true
