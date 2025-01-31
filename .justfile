@@ -58,20 +58,11 @@ packer $command $target='packer' *$options='':
         packer $command $options $target
     fi
 
-# ansible-vault alias 
-ansible-vault $target *$options='':
+usb:
     #!/usr/bin/env bash
-    unset HISTFIL
-    [[ ! -f ".vaultpass" ]] \
-        && dd if=/dev/urandom of=.vaultpass bs=8388607 count=1 2> /dev/null
-    ansible-vault $target $options
-
-# ansible-playbook alias 
-ansible-playbook *$options='':
-    #!/usr/bin/env bash
-    ./venv/bin/ansible-playbook $options
-    
-
-create_usb:
-    #!/usr/bin/env bash
-    loc=$(diskutil info "$(diskutil list | grep "SENSITIVE" | awk '{print $NF}')" | grep "Device Node:" | awk '{print $3}')
+    echo "insert empty + ext-fat formateed USB. Press Enter to continue..."
+    read
+    drive_path=$(find /Volumes/ -depth 1 | fzf --header="Select which drive to copy to")
+    cp .vaultpass $drive_path
+    cp scripts/* $drive_path
+    echo "finished! you can unplug the usb."

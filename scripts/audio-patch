@@ -1,0 +1,11 @@
+#!/bin/sh
+
+failed () {
+    echo "Installation failed. Press Enter to exit."
+    read
+    exit 1
+}
+
+ansible-pull -U https://github.com/RevelMedia-Group/sos-provisioner || failed
+echo 'Installation complete. Press Enter to exit.'
+read

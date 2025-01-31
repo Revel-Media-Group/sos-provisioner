@@ -1,25 +1,25 @@
 #!/bin/sh
 export USER=revel
+export PWD=$(pwd)
 export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 
-export ANSIBLE_VAULT_PASSWORD_FILE=/${USER}/.vaultpass
+export ANSIBLE_VAULT_PASSWORD_FILE=/home/$USER/.vaultpass
 
 
-export USB_VAULT_PATH="./.vaultpass"
-export USB_SSH_PATH="./.ssh"
-
+export USB_VAULT_PATH=".vaultpass"
+export USB_SSH_PATH=".ssh"
 
 failed () {
-    echo 'Installation failed. Press Enter to exit.'
+    echo "Installation failed. Press Enter to exit."
     read
     exit 1
 }
 
 ubuntu () {
-    apt update
-    apt install -y software-properties-common
-    add-apt-repository -y --update ppa:ansible/ansible
-    apt install -y ansible git
+    sudo apt update
+    sudo apt install -y software-properties-common
+    sudo add-apt-repository -y --update ppa:ansible/ansible
+    sudo apt install -y ansible git
 }
 
 setup () {
@@ -29,13 +29,8 @@ setup () {
     esac
 
     # install .vaultpass file from usb
-    if [ -f "$USB_VAULT_PATH"]; then
-        cp ./.vaultpass /home/${USER}/.vaultpass
-        chmod -x /home/${USER}/.vaultpass
-    else
-        echo "'${USB_VAULT_PATH}' file not found"
-        exit 1
-    fi
+    sudo cp ./.vaultpass /home/${USER}/.vaultpass
+    sudo chmod -x /home/${USER}/.vaultpass
 
     # TODO: when we make the repo private
     # install .ssh keys from usb
@@ -54,12 +49,6 @@ setup () {
 }
 
 
-# actual execution of the script
-if ! command -v pkexec >/dev/null 2>&1; then
-    echo "pkexec is not available. Running install with sudo."
-    sudo setup || failed
-else
-    pkexec setup || failed
-fi
+setup || failed
 echo 'Installation complete. Press Enter to exit.'
 read
