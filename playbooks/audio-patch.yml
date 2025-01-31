@@ -1,7 +1,7 @@
 ---
 # WARNING: this is just a patch playbook for ubuntu. you should try to use the 
 # official provisioner role instead for consistency sake
-- hosts: all
+- hosts: all:localhost
   become: true
   remote_user: '{{ user }}'
   tasks:

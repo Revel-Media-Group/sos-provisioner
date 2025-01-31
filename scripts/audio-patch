@@ -1,11 +1,22 @@
 #!/bin/sh
 
+export USER=revel
+export ANSIBLE_VAULT_PASSWORD_FILE=/home/$USER/.vaultpass
+
 failed () {
     echo "Installation failed. Press Enter to exit."
     read
     exit 1
 }
 
-ansible-pull -U https://github.com/RevelMedia-Group/sos-provisioner || failed
+patch () {
+    # install .vaultpass file from usb
+    sudo cp ./.vaultpass /home/${USER}/.vaultpass
+    sudo chmod -x /home/${USER}/.vaultpass
+
+    ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner playbooks/audio-patch.yml
+}
+
+patch || failed
 echo 'Installation complete. Press Enter to exit.'
 read
