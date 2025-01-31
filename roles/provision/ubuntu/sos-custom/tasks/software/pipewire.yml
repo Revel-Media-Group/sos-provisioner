@@ -17,6 +17,7 @@
       - libspa-0.2-jack
       - libspa-0.2-modules
       - pipewire
+      - wireplumber
       - pipewire-audio-client-libraries
       - pipewire-pulse
       - pipewire-media-session
@@ -30,6 +31,9 @@
   package:
     name: pulseaudio
     state: absent
+
+- name: software | pipewire | set volume to 50%
+  command: pactl set-sink-volume @DEFAULT_SINK@ 50%
 
 # he still isn't working :(
 # - name: software | pipewire | enable services

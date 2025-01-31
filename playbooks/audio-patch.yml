@@ -23,6 +23,7 @@
           - libspa-0.2-jack
           - libspa-0.2-modules
           - pipewire
+          - wireplumber
           - pipewire-audio-client-libraries
           - pipewire-pulse
           - pipewire-media-session
@@ -48,7 +49,7 @@
         name: psutil
         state: present
 
-    - name: config | gsettings | mute system sound
+    - name: config | gsettings | mute system sounds
       become: true
       become_user: '{{ user }}'
       community.general.dconf:
@@ -56,12 +57,16 @@
         value: 'false'
         state: present
 
+    - name: software | pipewire | set volume to 50%
+      command: pactl set-sink-volume @DEFAULT_SINK@ 50%
+
     - name: software | signageos | install puppeteer
       copy:
         src: puppeteer
         dest: /srv/
         owner: '{{ user }}'
         group: '{{ user }}'
+
     - name: software | signageos | install chromium script
       copy:
         src: chromium
