@@ -88,8 +88,10 @@
       command: chown -R {{ user }}:{{ user }} /var/lib/chromium
 
     - name: software | signageos | start services
+      become: true
+      user: '{{ user }}'
       systemd_service:
-        name: singageos-server.service
+        name: '{{ item }}'
         state: started
         enabled: true
       loop:
