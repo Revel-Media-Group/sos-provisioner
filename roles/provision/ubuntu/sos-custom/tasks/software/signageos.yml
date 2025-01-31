@@ -26,8 +26,11 @@
   package:
     name: curl
 
-- name: software | signageos | run nodejs setup script
+- name: software | signageos | download nodesource setup script
   shell: curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+
+- name: software | signageos | run nodesource script
+  shell: ./nodesource_setup.sh
 
 - name: software | signageos | install nodejs
   package:
