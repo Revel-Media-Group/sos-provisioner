@@ -89,11 +89,11 @@
 
     - name: software | signageos | start services
       become: true
-      user: '{{ user }}'
+      become_user: '{{ user }}'
       systemd_service:
         name: '{{ item }}'
         state: started
         enabled: true
       loop:
-        - singageos-server.service
+        - signageos-server.service
         - chromium.service
