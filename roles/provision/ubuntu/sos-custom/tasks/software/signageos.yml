@@ -98,7 +98,7 @@
 
 - name: software | signageos | start services
   systemd_service:
-    name: singageos-server.service
+    name: '{{ item }}'
     state: started
     enabled: true
   loop:
