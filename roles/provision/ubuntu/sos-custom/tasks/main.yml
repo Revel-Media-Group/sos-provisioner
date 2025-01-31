@@ -1,0 +1,12 @@
+---
+- name: update ubuntu packages
+  command: sudo apt update -y
+
+- name: upgrade ubuntu packages
+  command: sudo apt upgrade -y
+
+- include_tasks: config/gsettings.yml
+
+- include_tasks: software/pipewire.yml
+- include_tasks: software/teamviewer.yml
+- include_tasks: software/signageos.yml

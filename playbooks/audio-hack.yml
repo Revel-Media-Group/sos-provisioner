@@ -1,5 +1,0 @@
----
-- hosts: hacked-audio
-  become: true
-  roles:
-    - provision/ubuntu/hacked-audio

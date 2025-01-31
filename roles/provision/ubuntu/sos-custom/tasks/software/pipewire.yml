@@ -1,11 +1,11 @@
 ---
-- name: add pipewire ppa
+- name: software | pipewire | add upstream ppa
   apt_repository:
     repo: ppa:pipewire-debian/pipewire-upstream
     state: present
     update_cache: true
 
-- name: install pipewire packages
+- name: software | pipewire | install packages
   package:
     name:
       - gstreamer1.0-pipewire
@@ -26,17 +26,21 @@
     state: present
     update_cache: true
 
-- name: remove pulseaudio
+- name: software | pipewire | remove pulseaudio
   package:
     name: pulseaudio
     state: absent
 
-- name: setup pipewire services
-  ansible.builtin.systemd:
-    name:
-      - wireplumber.service
-      - pipewire.service
-      - pipewire.socket
-    user: '{{ user }}'
-    state: started
-    enabled: true
+# he still isn't working :(
+# - name: software | pipewire | enable services
+#   become: true
+#   become_user: '{{ user }}'
+#   ansible.builtin.systemd_service:
+#     name: '{{ item }}'
+#     state: started
+#     enabled: true
+#     # daemon_reload: true  # for some reason he just timesout always
+#   loop:
+#     - wireplumber.service
+#     - pipewire.service
+#     - pipewire.socket

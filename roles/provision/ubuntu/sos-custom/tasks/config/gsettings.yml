@@ -1,0 +1,54 @@
+---
+- name: config | gsettings | install pip
+  package:
+    name: python3-pip
+
+- name: config | gsettings | pip install psutil
+  become: true
+  become_user: '{{ user }}'
+  pip:
+    name: psutil
+    state: present
+
+- name: config | gsettings | disable idle screen turnoff
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/desktop/session/idle-delay
+    value: uint32 0
+    state: present
+
+- name: config | gsettings | disable suspend on AC power
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type
+    value: "'nothing'"
+    state: present
+
+- name: config | gesttings | disable suspend on battery
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type
+    value: "'nothing'"
+    state: present
+
+- name: config | gsettings | set to performance mode
+  command: powerprofilesctl set performance
+
+- name: config | gsettings | disable notifications
+  become: true
+  become_user: '{{ user }}'
+  dconf:
+    key: /com/ubuntu/update-notifier/no-show-notifications
+    value: 'true'
+    state: present
+
+- name: config | gsettings | mute system sound
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/desktop/sound/event-sounds
+    value: 'false'
+    state: present

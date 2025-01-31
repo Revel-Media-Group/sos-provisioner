@@ -14,12 +14,12 @@
   roles:
     - provision/ubuntu/sos-official
 
+- hosts: ubuntu-custom
+  become: true
+  roles:
+    - provision/ubuntu/sos-custom
+
 - hosts: pxe-server
   become: true
   roles:
     - pxe-server
-
-- hosts: hacked-audio
-  become: true
-  roles:
-    - provision/ubuntu/hacked-audio

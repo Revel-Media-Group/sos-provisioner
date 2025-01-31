@@ -1,0 +1,15 @@
+---
+- name: software | teamviewer | download deb
+  ansible.builtin.get_url:
+    url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
+    dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
+  register: teamviewer_download
+
+- name: software | teamviewer | install deb
+  shell: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb || exit 0
+  when: teamviewer_download.changed
+
+- name: software | teamviewer | configure
+  copy:
+    src: global.conf
+    dest: /etc/teamviewer/global.conf

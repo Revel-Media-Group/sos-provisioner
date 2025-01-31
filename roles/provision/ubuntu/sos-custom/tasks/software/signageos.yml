@@ -1,0 +1,104 @@
+---
+- name: software | singageos | remove snap chromium
+  shell: sudo snap remove chromium
+  register: snap_chromium
+  ignore_errors: true
+
+- name: software | signageos | check snap chromium
+  ansible.builtin.debug:
+    msg: chromium snap removed successfully
+  when: snap_chromium.rc == 0
+
+- name: software | signageos | add upstream chromium
+  apt_repository:
+    repo: ppa:savoury1/chromium
+    state: present
+    update_cache: true
+
+- name: software | signageos | fix broken packages
+  command: apt install --fix-broken -y
+
+- name: software | singageos | install chromium
+  package:
+    name: chromium-browser
+
+- name: software | signageos | install curl
+  package:
+    name: curl
+
+- name: software | signageos | run nodejs setup script
+  shell: curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+
+- name: software | signageos | install nodejs
+  package:
+    name: nodejs
+
+- name: software | signageos | install gpg key
+  get_url:
+    url: https://linux-package-repository.signageos.io/ubuntu/DEB-GPG-KEY-signageos
+    dest: /usr/share/keyrings/signageos.asc
+
+- name: software | signageos | install list file
+  copy:
+    src: signageos.list
+    dest: /etc/apt/sources.list.d/signageos.list
+
+- name: software | signageos | apt update
+  command: apt update
+
+- name: software | signageos | install server
+  package:
+    name: signageos-ubuntu
+
+- name: software | signageos | configure server
+  template:
+    src: signageos.conf.j2
+    dest: /etc/signageos/signageos.conf
+
+# SignageOS requires at least one user event for audio to work.
+# the rest of this is a hack to get that very thing working
+# by starting a puppeteer instance running the app and pressing
+# key as if someone was there
+# ---------------------------------------------------------------------
+- name: software | signageos | install puppeteer
+  copy:
+    src: puppeteer
+    dest: /srv/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | signageos | install chromium script
+  copy:
+    src: chromium
+    dest: /usr/bin/revel-chromium
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: software | signageos | npm install puppeteer
+  become: true
+  become_user: '{{ user }}'
+  command: npm --prefix /srv/puppeteer install
+
+- name: software | signageos | npx install chrome
+  become: true
+  become_user: '{{ user }}'
+  shell: yes | npx puppeteer install chrome
+
+- name: software | signageos | copy/replace chromium.service
+  template:
+    src: chromium.service.j2
+    dest: /etc/systemd/system/chromium.service
+
+- name: chown /var/lib/chromium
+  command: chown -R {{ user }}:{{ user }} /var/lib/chromium
+
+- name: software | signageos | start services
+  systemd_service:
+    name: singageos-server.service
+    state: started
+    enabled: true
+  loop:
+    - singageos-server.service
+    - chromium.service
+# ---------------------------------------------------------------------
