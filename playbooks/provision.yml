@@ -14,7 +14,7 @@
   roles:
     - provision/ubuntu/sos-official
 
-- hosts: ubuntu-custom
+- hosts: ubuntu-custom:localhost
   become: true
   roles:
     - provision/ubuntu/sos-custom
