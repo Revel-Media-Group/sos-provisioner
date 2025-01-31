@@ -38,6 +38,20 @@
         name: pulseaudio
         state: absent
 
+    - name: software | pipewire | enable services
+      become: true
+      become_user: '{{ user }}'
+      systemd_service:
+        name: '{{ item }}'
+        state: started
+        enabled: true
+      loop:
+        - wireplumber.service
+        - pipewire.service
+
+    - name: software | pipewire | set volume to 50%
+      command: pactl set-sink-volume @DEFAULT_SINK@ 50%
+
     - name: config | gsettings | install pip
       package:
         name: python3-pip
@@ -56,9 +70,6 @@
         key: /org/gnome/desktop/sound/event-sounds
         value: 'false'
         state: present
-
-    - name: software | pipewire | set volume to 50%
-      command: pactl set-sink-volume @DEFAULT_SINK@ 50%
 
     - name: software | signageos | install puppeteer
       copy:
