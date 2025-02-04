@@ -5,7 +5,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE=/home/$USER/.vaultpass
 
 failed () {
     echo "Installation failed. Press Enter to exit."
-    read -n 1
+    read REPLY
     exit 1
 }
 
@@ -19,5 +19,5 @@ patch () {
 
 patch || failed
 echo 'Installation complete. Press Enter to exit and reboot.'
-read -n 1
+read REPLY
 sudo reboot

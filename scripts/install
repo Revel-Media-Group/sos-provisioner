@@ -11,7 +11,7 @@ export USB_SSH_PATH=".ssh"
 
 failed () {
     echo "Installation failed. Press Enter to exit."
-    read -n 1
+    read REPLY
     exit 1
 }
 
