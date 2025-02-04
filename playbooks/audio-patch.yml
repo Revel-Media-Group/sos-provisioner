@@ -3,7 +3,6 @@
 # official provisioner role instead for consistency sake
 - hosts: all:localhost
   become: true
-  remote_user: '{{ user }}'
   tasks:
     - name: software | pipewire | add upstream ppa
       apt_repository:
