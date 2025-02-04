@@ -44,8 +44,14 @@
     DISPLAY: :0
     XDG_RUNTIME_DIR: /run/user/1000
 
-- name: set to performance mode
+- name: get available power profiles
+  command: powerprofilesctl list
+  register: power_profiles
+  changed_when: false
+
+- name: set to performance mode if available
   command: powerprofilesctl set performance
+  when: "'performance' in power_profiles.stdout"
 
 - name: disable notifications
   command: |

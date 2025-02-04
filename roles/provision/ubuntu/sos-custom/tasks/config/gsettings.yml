@@ -26,7 +26,7 @@
     value: "'nothing'"
     state: present
 
-- name: config | gesttings | disable suspend on battery
+- name: config | gsettings | disable suspend on battery
   become: true
   become_user: '{{ user }}'
   community.general.dconf:
@@ -34,8 +34,14 @@
     value: "'nothing'"
     state: present
 
-- name: config | gsettings | set to performance mode
+- name: config | gsettings | get available power profiles
+  command: powerprofilesctl list
+  register: power_profiles
+  changed_when: false
+
+- name: config | gsettings | set to performance mode if available
   command: powerprofilesctl set performance
+  when: "'performance' in power_profiles.stdout"
 
 - name: config | gsettings | disable notifications
   become: true
