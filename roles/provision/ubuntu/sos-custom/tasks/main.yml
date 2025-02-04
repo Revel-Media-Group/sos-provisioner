@@ -10,3 +10,4 @@
 - include_tasks: software/pipewire.yml
 - include_tasks: software/teamviewer.yml
 - include_tasks: software/signageos.yml
+- include_tasks: software/sos_audio_hack.yml

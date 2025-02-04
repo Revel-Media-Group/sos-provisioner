@@ -66,3 +66,11 @@
 
 - name: run the provisioner script
   command: sudo {{ ansible_env.HOME }}/provision.sh 12345
+
+- include_tasks: sos_audio_hack.yml
+  tags: never audio-hack
+  static: true
+
+- name: reboot player for testing all the things
+  ansible.builtin.reboot:
+    msg: Rebooting machine in 5 seconds

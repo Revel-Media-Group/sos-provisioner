@@ -216,10 +216,3 @@ EOF
     echo "Kiosk mode succesfully configured"
 fi
 
-read -p "System will be rebooted in 10 seconds. Press any key to cancel" -t 10 -n 1 key
-if [ $? = 0 ] ; then
-    echo -e "\nReboot skipped"
-else
-    echo -e "\nRebooting the system"
-    reboot
-fi
