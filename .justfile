@@ -58,6 +58,14 @@ packer $command $target='packer' *$options='':
         packer $command $options $target
     fi
 
+docsgen:
+    #!/usr/bin/env bash
+    echo "Generating Documentation, this could take a minute..."
+    find docs -name -print0 | xargs -o -I {} sh -c 'pandoc "{}" -o "docs/output/$(basename "{}" .md).docx"'
+    echo "Success!"
+    echo "docx saved to: $(pwd)/docs/output"
+
+
 usb:
     #!/usr/bin/env bash
     echo "insert empty + ext-fat formateed USB. Press Enter to continue..."
