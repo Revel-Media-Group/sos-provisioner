@@ -69,7 +69,3 @@
 
 - include_tasks: sos_audio_hack.yml
   tags: never audio-hack
-
-- name: reboot player
-  ansible.builtin.reboot:
-    msg: Rebooting machine in 5 seconds

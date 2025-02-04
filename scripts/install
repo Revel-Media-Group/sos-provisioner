@@ -11,7 +11,7 @@ export USB_SSH_PATH=".ssh"
 
 failed () {
     echo "Installation failed. Press Enter to exit."
-    read
+    read -n 1
     exit 1
 }
 
@@ -50,5 +50,4 @@ setup () {
 
 
 setup || failed
-echo 'Installation complete. Press Enter to exit.'
-read
+sudo reboot
