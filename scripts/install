@@ -45,7 +45,7 @@ setup () {
     # fi
     
     # pull our ansible playbook from github
-    ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner
+    ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner --tags audio-hack
 }
 
 
