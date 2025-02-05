@@ -85,10 +85,11 @@
         owner: root
         group: root
         mode: '0755'
+
     - name: software | signageos | npm install puppeteer
       become: true
       become_user: '{{ user }}'
-      command: npm --prefix /srv/puppeteer install
+      command: npm --prefix /srv/puppeteer install --unsafe-perm
 
     - name: software | signageos | npx install chrome
       become: true
