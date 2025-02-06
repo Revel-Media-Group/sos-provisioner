@@ -17,3 +17,8 @@
 
 - include_tasks: sos_audio_hack.yml
   tags: never audio-hack
+
+- name: remove all crontabs for user
+  become: true
+  become_user: '{{ user }}'
+  command: crontab -r

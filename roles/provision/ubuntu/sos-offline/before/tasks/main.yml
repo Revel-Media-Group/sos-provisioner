@@ -6,6 +6,14 @@
 - name: upgrade ubuntu packages
   command: sudo apt upgrade -y
 
+- name: ubuntu packages
+  command: sudo apt upgrade -y
+
+- name: remove update-notifier
+  package:
+    name: update-notifier
+    state: absent
+
 - name: download teamviewer
   ansible.builtin.get_url:
     url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
