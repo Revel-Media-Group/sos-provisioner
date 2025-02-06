@@ -1,0 +1,50 @@
+---
+- name: software | pipewire | add upstream ppa
+  apt_repository:
+    repo: ppa:pipewire-debian/pipewire-upstream
+    state: present
+    update_cache: true
+
+- name: software | pipewire | install packages
+  package:
+    name:
+      - gstreamer1.0-pipewire
+      - libpipewire-0.3-0
+      - libpipewire-0.3-dev
+      - libpipewire-0.3-modules
+      - libspa-0.2-bluetooth
+      - libspa-0.2-dev
+      - libspa-0.2-jack
+      - libspa-0.2-modules
+      - pipewire
+      - wireplumber
+      - pipewire-audio-client-libraries
+      - pipewire-pulse
+      - pipewire-media-session
+      - pipewire-bin
+      - pipewire-locales
+      - pipewire-tests
+    state: present
+    update_cache: true
+
+- name: software | pipewire | remove pulseaudio
+  package:
+    name: pulseaudio
+    state: absent
+
+# he still isn't working :(
+# - name: software | pipewire | set volume to 50%
+#   command: pactl set-sink-volume @DEFAULT_SINK@ 50%
+#
+# - name: software | pipewire | enable services
+#   become: true
+#   become_user: '{{ user }}'
+#   ansible.builtin.systemd_service:
+#     name: '{{ item }}'
+#     state: started
+#     enabled: true
+#     # daemon_reload: true  # for some reason he just timesout always
+#   loop:
+#     - wireplumber.service
+#     - pipewire.service
+#     - pipewire.socket

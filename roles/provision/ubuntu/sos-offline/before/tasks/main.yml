@@ -59,8 +59,7 @@
   when: "'performance' in power_profiles.stdout"
 
 - name: disable notifications
-  command: |
+  command: |-
     gsettings set com.ubuntu.update-notifier no-show-notifications true
 
-- include_tasks: sos_audio_hack.yml
-  tags: never audio-hack
+- include_tasks: pipewire.yml
