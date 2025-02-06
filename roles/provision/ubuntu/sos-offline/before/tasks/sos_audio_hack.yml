@@ -4,14 +4,18 @@
 # by starting a puppeteer instance running the app and pressing
 # key as if someone was there
 # ---------------------------------------------------------------------
-- name: software | signageos | install puppeteer
+- name: software | audio-hack | install npm
+  package:
+    name: npm
+
+- name: software | audio-hack | install puppeteer
   copy:
     src: puppeteer
     dest: /srv/
     owner: '{{ user }}'
     group: '{{ user }}'
 
-- name: software | signageos | install chromium script
+- name: software | audio-hack | install chromium script
   copy:
     src: chromium
     dest: /usr/bin/revel-chromium
@@ -19,17 +23,17 @@
     group: root
     mode: '0755'
 
-- name: software | signageos | npm install puppeteer
+- name: software | audio-hack | npm install puppeteer
   become: true
   become_user: '{{ user }}'
   command: npm --prefix /srv/puppeteer install
 
-- name: software | signageos | npx install chrome
+- name: software | audio-hack | npx install chrome
   become: true
   become_user: '{{ user }}'
   shell: yes | npx puppeteer install chrome
 
-- name: software | signageos | copy/replace chromium.service
+- name: software | audio-hack | copy/replace chromium.service
   template:
     src: chromium.service.j2
     dest: /etc/systemd/system/chromium.service
@@ -37,7 +41,7 @@
 - name: chown /var/lib/chromium
   command: chown -R {{ user }}:{{ user }} /var/lib/chromium
 
-- name: software | signageos | start services
+- name: software | audio-hack | start services
   systemd_service:
     name: '{{ item }}'
     state: started
