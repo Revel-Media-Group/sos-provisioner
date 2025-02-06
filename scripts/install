@@ -1,5 +1,5 @@
 #!/bin/sh
-export USER=revel
+export USER=$(whoami)
 export PWD=$(pwd)
 export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 
