@@ -1,0 +1,5 @@
+---
+- hosts: ubuntu-offline:localhost
+  become: true
+  roles:
+    - provision/ubuntu/sos-offline/after
