@@ -24,10 +24,10 @@
 - name: install teamviewer
   shell: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb || exit 0
 
-- name: configure teamviewer
-  copy:
-    src: global.conf
-    dest: /etc/teamviewer/global.conf
+# - name: configure teamviewer
+#   copy:
+#     src: global.conf
+#     dest: /etc/teamviewer/global.conf
 
 - name: disable idle screen turnoff
   command: gsettings set org.gnome.desktop.session idle-delay 0
