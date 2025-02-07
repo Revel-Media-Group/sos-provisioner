@@ -6,6 +6,11 @@
 - name: upgrade ubuntu packages
   command: sudo apt upgrade -y
 
+- name: remove update-manager
+  package:
+    name: update-manager
+    state: absent
+
 - name: download teamviewer
   ansible.builtin.get_url:
     url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
