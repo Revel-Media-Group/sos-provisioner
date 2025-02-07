@@ -11,7 +11,8 @@ image () {
 		| sort -k2 -rh \
 		| head -n 1 \
 		| awk '{print "/dev/" $1}')
-	sudo zcat $IMG | sudo dd of=$DISK bs=4M status=progress
+	SIZE=$(gzip -l "$IMG" | awk 'NR==2 {print $2}')
+	pv $IMG | sudo zcat | sudo dd of=$DISK bs=4M
 }
 
 efi () {
@@ -28,7 +29,7 @@ efi () {
 		| awk '{print $1}' \
 		| sed 's/*$//g' \
 		| paste -sd, -)"
-	sudo efibootmgr -o $NEW_BOOT
+	sudo efibootmgr -o $NEW_BOOT &> /dev/null
 }
 
 image || failed

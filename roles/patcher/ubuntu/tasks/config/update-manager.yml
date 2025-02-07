@@ -1,0 +1,5 @@
+---
+- name: config | remove update-manager
+  package:
+    name: update-manager
+    state: absent

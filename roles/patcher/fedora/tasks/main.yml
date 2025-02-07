@@ -1,0 +1,9 @@
+---
+- name: install fedora patcher
+  become: true
+  become_user: root
+  ansible.builtin.cron:
+    name: 2am nightly fedora patcher
+    minute: 0
+    hour: 2
+    job: ansible-pull -U {{ ansible_repo_https }} --tags fedora
