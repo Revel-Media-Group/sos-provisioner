@@ -1,9 +1,22 @@
 ---
-- name: install fedora patcher
+- name: patcher | install anacron
+  ansible.builtin.package:
+    name: anacron
+    state: present
+
+- name: patcher | configure cron
   become: true
   become_user: root
   ansible.builtin.cron:
     name: 2am nightly fedora patcher
     minute: 0
     hour: 2
-    job: ansible-pull -U {{ ansible_repo_https }} --tags fedora
+    job: ansible-pull -U {{ ansible_repo_https }} --tags patcher,fedora
+
+- name: patcher | configure anacron
+  become: true
+  become_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/anacrontab
+    line: 1 5 myjob /path/to/my_script.sh
+    create: true

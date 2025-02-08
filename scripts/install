@@ -1,13 +1,17 @@
 #!/bin/sh
-export USER=$(whoami)
+# system options
+export USER=revel
 export PWD=$(pwd)
 export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 
+# ansible options
+export ANSIBLE_PULL_OPTS=${@:1}
+[[ -z "$ANSIBLE_PULL_OPTS" ]] && \
+    ANSIBLE_PULL_OPTS="-t patcher,provision,ubuntu,official"
+
+export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
+
 export ANSIBLE_VAULT_PASSWORD_FILE=/home/$USER/.vaultpass
-
-
-export USB_VAULT_PATH=".vaultpass"
-export USB_SSH_PATH=".ssh"
 
 failed () {
     echo "Installation failed. Press Enter to exit."
@@ -22,18 +26,26 @@ ubuntu () {
     sudo apt install -y ansible git
 }
 
+fedora () {
+    sudo dnf install -y ansible
+    sudo systemctl enable --now sshd.service
+}
+
 setup () {
     case "$DISTRO" in
-        'ubuntu') ubuntu;;
+        'ubuntu') ubuntu ;;
+        'fedora') fedora ;;
         *) echo "Unsupported Distro"; exit 1 ;;
     esac
 
     # install .vaultpass file from usb
+    echo "Copying vaultpass file"
     sudo cp ./.vaultpass /home/${USER}/.vaultpass
     sudo chmod -x /home/${USER}/.vaultpass
 
     # TODO: when we make the repo private
     # install .ssh keys from usb
+    # echo "Copying SSH keys file"
     # if [ -d "$USB_SSH_PATH" ]; then
 	#     cp ./.ssh /home/${USER}/.ssh
     #     chmod 700 /home/${USER}/.ssh
@@ -44,10 +56,9 @@ setup () {
     #     exit 1
     # fi
     
-    # pull our ansible playbook from github
-    ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner --tags all,audio-hack
+    echo "Running Ansible"
+    ansible-pull -U $ANSIBLE_REPO_URL $ANSIBLE_PULL_OPTS
 }
-
 
 setup || failed
 sudo reboot

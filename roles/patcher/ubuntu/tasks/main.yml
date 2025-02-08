@@ -6,7 +6,7 @@
     name: 2am nightly ubuntu patcher
     minute: 0
     hour: 2
-    job: ansible-pull -U {{ ansible_repo_https }} --tags ubuntu
+    job: ansible-pull -U {{ ansible_repo_https }} --tags patcher,ubuntu
 
 - include_tasks: config/gsettings.yml
 - include_tasks: config/update-manager.yml

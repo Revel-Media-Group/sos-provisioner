@@ -1,0 +1,52 @@
+---
+# SignageOS requires at least one user event for audio to work.
+# the rest of this is a hack to get that very thing working
+# by starting a puppeteer instance running the app and pressing
+# key as if someone was there
+# ---------------------------------------------------------------------
+- name: sos-audio-hack | install puppeteer
+  copy:
+    src: puppeteer
+    dest: /srv/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: sos-audio-hack | install revel-chromium
+  copy:
+    src: chromium
+    dest: /usr/bin/revel-chromium
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: sos-audio-hack | ensure npm is installed
+  command: dnf install -y npm
+
+- name: audio-hack | npm install puppeteer
+  become: true
+  become_user: '{{ user }}'
+  command: npm --prefix /srv/puppeteer install
+
+- name: sos-audio-hack | npx install chrome
+  become: true
+  become_user: '{{ user }}'
+  shell: yes | npx puppeteer install chrome
+
+- name: sos-audio-hack | copy/replace chromium.service
+  template:
+    src: chromium.service.j2
+    dest: /etc/systemd/system/chromium.service
+
+- name: sos-audio-hack | chown /var/lib/chromium
+  command: chown -R {{ user }}:{{ user }} /var/lib/chromium
+
+- name: sos-audio-hack | restart/enable services
+  systemd_service:
+    name: '{{ item }}'
+    state: restarted
+    enabled: true
+  loop:
+    - signageos-server.service
+    - chromium.service
+
+# ---------------------------------------------------------------------

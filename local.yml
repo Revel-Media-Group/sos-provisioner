@@ -1,5 +1,69 @@
 ---
-- hosts: all:localhost
+- hosts: localhost
   become: true
-  roles:
-    - provision/ubuntu/sos-official
+  tasks:
+    - tags:
+        - never
+        - patcher
+      block:
+        - name: patcher | ubuntu
+          include_role: patcher/ubuntu
+          tags:
+            - never
+            - ubuntu
+
+        - name: patcher | fedora
+          include_role: patcher/fedora
+          tags:
+            - never
+            - fedora
+
+        - name: patcher | rescue
+          command: command -v asdf &> /dev/null
+          tags:
+            - never
+            - rescue
+      rescue:
+        - mail:
+            host: '{{ mailchimp_host }}'
+            port: '{{ mailchimp_port }}'
+            username: '{{ mailchimp_user }}'
+            password: '{{ mailchimp_pass }}'
+            to: '{{ mailchimp_to }}'
+            from: '{{ mailchimp_from }}'
+            subject: Ansible Role Execution Failed
+            body: test
+            secure: starttls
+
+    - name: provision
+      tags:
+        - never
+        - provision
+      block:
+        - name: provision | ubuntu | official
+          tags:
+            - never
+            - ubuntu
+            - official
+          include_role: provision/ubuntu-official
+
+        - name: provision | ubuntu | custom
+          tags:
+            - never
+            - ubuntu
+            - custom
+          include_role: provision/ubuntu-custom
+
+        - name: provision | fedora | official
+          tags:
+            - never
+            - fedora
+            - official
+          include_role: provision/fedora-official
+
+        - name: provision | fedora | custom
+          tags:
+            - never
+            - fedora
+            - custom
+          include_role: provision/fedora-custom
