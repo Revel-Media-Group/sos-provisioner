@@ -12,6 +12,8 @@
     state: absent
 
 - name: download teamviewer
+  tags:
+    - teamviewer
   ansible.builtin.get_url:
     url: https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
     dest: '{{ ansible_env.HOME }}/teamviewer_amd64.deb'
@@ -22,6 +24,8 @@
   delay: 10
 
 - name: install teamviewer
+  tags:
+    - teamviewer
   shell: dpkg -i {{ ansible_env.HOME }}/teamviewer_amd64.deb || exit 0
 
 # - name: configure teamviewer
@@ -63,9 +67,9 @@
   command: powerprofilesctl set performance
   when: "'performance' in power_profiles.stdout"
 
-- name: disable notifications
-  command: |
-    gsettings set com.ubuntu.update-notifier no-show-notifications true
+# - name: disable notifications
+#   command: |
+#     gsettings set com.ubuntu.update-notifier no-show-notifications true
 
   # TODO: move back to upstream script if/when fixed :3
 # - name: download provisioner script
