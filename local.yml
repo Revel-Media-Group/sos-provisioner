@@ -48,7 +48,7 @@
             - ubuntu
             - official
           include_role:
-            name: provision/ubuntu-official
+            name: provision/ubuntu/sos-official
 
         - name: provision | ubuntu | custom
           tags:
@@ -56,7 +56,7 @@
             - ubuntu
             - custom
           include_role:
-            name: provision/ubuntu-custom
+            name: provision/ubuntu/sos-custom
 
         - name: provision | fedora | official
           tags:
@@ -64,7 +64,7 @@
             - fedora
             - official
           include_role:
-            name: provision/fedora-official
+            name: provision/fedora/sos-official
 
         - name: provision | fedora | custom
           tags:
@@ -72,4 +72,4 @@
             - fedora
             - custom
           include_role:
-            name: provision/fedora-custom
+            name: provision/fedora/sos-custom
