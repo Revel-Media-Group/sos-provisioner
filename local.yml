@@ -7,13 +7,15 @@
         - patcher
       block:
         - name: patcher | ubuntu
-          include_role: patcher/ubuntu
+          include_role:
+            name: patcher/ubuntu
           tags:
             - never
             - ubuntu
 
         - name: patcher | fedora
-          include_role: patcher/fedora
+          include_role:
+            name: patcher/fedora
           tags:
             - never
             - fedora
@@ -45,25 +47,29 @@
             - never
             - ubuntu
             - official
-          include_role: provision/ubuntu-official
+          include_role:
+            name: provision/ubuntu-official
 
         - name: provision | ubuntu | custom
           tags:
             - never
             - ubuntu
             - custom
-          include_role: provision/ubuntu-custom
+          include_role:
+            name: provision/ubuntu-custom
 
         - name: provision | fedora | official
           tags:
             - never
             - fedora
             - official
-          include_role: provision/fedora-official
+          include_role:
+            name: provision/fedora-official
 
         - name: provision | fedora | custom
           tags:
             - never
             - fedora
             - custom
-          include_role: provision/fedora-custom
+          include_role:
+            name: provision/fedora-custom

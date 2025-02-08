@@ -1,25 +1,44 @@
 ---
-- hosts: fedora-official
+- hosts: all
   become: true
+  tags:
+    - never
+    - fedora
+    - official
   roles:
     - provision/fedora/sos-official
 
-- hosts: fedora-custom
+- hosts: all
   become: true
+  tags:
+    - never
+    - fedora
+    - custom
   roles:
     - provision/fedora/sos-custom
 
-- hosts: ubuntu-official
+- hosts: all
   become: true
+  tags:
+    - never
+    - ubuntu
+    - official
   roles:
     - provision/ubuntu/sos-official
 
-- hosts: ubuntu-custom:localhost
+- hosts: all
   become: true
+  tags:
+    - never
+    - ubuntu
+    - custom
   roles:
     - provision/ubuntu/sos-custom
 
 - hosts: pxe-server
   become: true
+  tags:
+    - never
+    - pxe-server
   roles:
     - pxe-server
