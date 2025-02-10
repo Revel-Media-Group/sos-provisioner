@@ -2,29 +2,26 @@
 - hosts: localhost
   become: true
   tasks:
-    - tags:
-        - never
-        - patcher
-      block:
+    - block:
         - name: patcher | ubuntu
+          tags:
+            - ubuntu
           include_role:
             name: patcher/ubuntu
-          tags:
-            - never
-            - ubuntu
 
         - name: patcher | fedora
+          tags:
+            - fedora
           include_role:
             name: patcher/fedora
-          tags:
-            - never
-            - fedora
 
         - name: patcher | rescue
-          command: command -v asdf &> /dev/null
           tags:
-            - never
             - rescue
+          command: command -v asdf &> /dev/null
+      tags:
+        - never
+        - patcher
       rescue:
         - mail:
             host: '{{ mailchimp_host }}'
@@ -37,14 +34,9 @@
             body: test
             secure: starttls
 
-    - name: provision
-      tags:
-        - never
-        - provision
-      block:
+    - block:
         - name: provision | ubuntu | official
           tags:
-            - never
             - ubuntu
             - official
           include_role:
@@ -52,7 +44,6 @@
 
         - name: provision | ubuntu | custom
           tags:
-            - never
             - ubuntu
             - custom
           include_role:
@@ -60,7 +51,6 @@
 
         - name: provision | fedora | official
           tags:
-            - never
             - fedora
             - official
           include_role:
@@ -68,8 +58,10 @@
 
         - name: provision | fedora | custom
           tags:
-            - never
             - fedora
             - custom
           include_role:
             name: provision/fedora/sos-custom
+      tags:
+        - never
+        - provision
