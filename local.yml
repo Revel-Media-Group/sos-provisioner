@@ -1,8 +1,4 @@
 ---
-# ------------------------------------------------------------------------
-# ------------------------------- Ubuntu ---------------------------------
-# ------------------------------------------------------------------------
-
 - hosts: localhost
   become: true
   tags:
@@ -19,45 +15,6 @@
     - official
   roles:
     - provision/ubuntu/sos-official
-
-- hosts: localhost
-  become: true
-  tags:
-    - provision
-    - ubuntu
-    - custom
-  roles:
-    - provision/ubuntu/sos-custom
-
-# ------------------------------------------------------------------------
-# ------------------------------- Fedora ---------------------------------
-# ------------------------------------------------------------------------
-
-- hosts: localhost
-  become: true
-  tags:
-    - patcher
-    - fedora
-  roles:
-    - patcher/fedora
-
-- hosts: localhost
-  become: true
-  tags:
-    - provision
-    - fedora
-    - official
-  roles:
-    - provision/ubuntu/sos-custom
-
-- hosts: localhost
-  become: true
-  tags:
-    - provision
-    - fedora
-    - custom
-  roles:
-    - provision/ubuntu/sos-custom
 
 # saving him for later, we need to get updated ansible for this guy to work
 # rescue:

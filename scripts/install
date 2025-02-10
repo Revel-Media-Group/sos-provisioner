@@ -5,9 +5,10 @@ export PWD=$(pwd)
 export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 
 # ansible options
-export ANSIBLE_PULL_OPTS=${@:1}
-[[ -z "$ANSIBLE_PULL_OPTS" ]] && \
+export ANSIBLE_PULL_OPTS="${@}"
+if [ -z "$ANSIBLE_PULL_OPTS" ]; then
     ANSIBLE_PULL_OPTS="-t patcher,provision,ubuntu,official"
+fi
 
 export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
 

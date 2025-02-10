@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Revel Provisioner
+Exec=ptyxis -- ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner.git -t patcher,provision,fedora,custom
+Terminal=True
