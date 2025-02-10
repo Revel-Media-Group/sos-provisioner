@@ -2,66 +2,10 @@
 - hosts: localhost
   become: true
   tasks:
-    - block:
-        - name: patcher | ubuntu
-          tags:
-            - ubuntu
-          include_role:
-            name: patcher/ubuntu
+    - name: patcher | ubuntu
+      include_role:
+        name: patcher/ubuntu
 
-        - name: patcher | fedora
-          tags:
-            - fedora
-          include_role:
-            name: patcher/fedora
-
-        - name: patcher | rescue
-          tags:
-            - rescue
-          command: command -v asdf &> /dev/null
-      tags:
-        - never
-        - patcher
-      rescue:
-        - mail:
-            host: '{{ mailchimp_host }}'
-            port: '{{ mailchimp_port }}'
-            username: '{{ mailchimp_user }}'
-            password: '{{ mailchimp_pass }}'
-            to: '{{ mailchimp_to }}'
-            from: '{{ mailchimp_from }}'
-            subject: Ansible Role Execution Failed
-            body: test
-            secure: starttls
-
-    - block:
-        - name: provision | ubuntu | official
-          tags:
-            - ubuntu
-            - official
-          include_role:
-            name: provision/ubuntu/sos-official
-
-        - name: provision | ubuntu | custom
-          tags:
-            - ubuntu
-            - custom
-          include_role:
-            name: provision/ubuntu/sos-custom
-
-        - name: provision | fedora | official
-          tags:
-            - fedora
-            - official
-          include_role:
-            name: provision/fedora/sos-official
-
-        - name: provision | fedora | custom
-          tags:
-            - fedora
-            - custom
-          include_role:
-            name: provision/fedora/sos-custom
-      tags:
-        - never
-        - provision
+    - name: provision | ubuntu | official
+      include_role:
+        name: provision/ubuntu/sos-official
