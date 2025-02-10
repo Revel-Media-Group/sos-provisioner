@@ -1,18 +1,17 @@
 ---
 - hosts: localhost
   become: true
-  tasks:
-    - name: patcher | ubuntu
-      tags:
-        - patcher
-        - ubuntu
-      include_role:
-        name: patcher/ubuntu
+  tags:
+    - patcher
+    - ubuntu
+  roles:
+    - patcher/ubuntu
 
-    - name: provision | ubuntu | official
-      tags:
-        - provision
-        - ubuntu
-        - official
-      include_role:
-        name: provision/ubuntu/sos-official
+- hosts: localhost
+  become: true
+  tags:
+    - provision
+    - ubuntu
+    - official
+  roles:
+    - provision/ubuntu/sos-official
