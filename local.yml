@@ -3,9 +3,16 @@
   become: true
   tasks:
     - name: patcher | ubuntu
+      tags:
+        - patcher
+        - ubuntu
       include_role:
         name: patcher/ubuntu
 
     - name: provision | ubuntu | official
+      tags:
+        - provision
+        - ubuntu
+        - official
       include_role:
         name: provision/ubuntu/sos-official
