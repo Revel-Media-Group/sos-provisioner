@@ -52,6 +52,8 @@
     state: present
 
 - name: config | gsettings | disable teamviewer notifications
+  become: true
+  become_user: '{{ user }}'
   community.general.dconf:
     key: /com/teamviewer/urgent-notifications-enabled
     value: 'false'
