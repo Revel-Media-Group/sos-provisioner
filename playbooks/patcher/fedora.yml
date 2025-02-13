@@ -1,8 +1,5 @@
 ---
 - hosts: localhost
   become: true
-  tags:
-    - patcher
-    - fedora
   roles:
     - patcher/fedora

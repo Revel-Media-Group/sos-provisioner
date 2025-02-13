@@ -1,0 +1,27 @@
+---
+- name: software | river | install
+  community.general.rpm_ostree_pkg:
+    name: river
+    state: present
+
+- name: software | river | config | path
+  ansible.builtin.file:
+    path: /home/{{ user }}/.config/river
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | river | config | copy
+  ansible.builtin.copy:
+    src: river/
+    dest: /home/{{ user }}/.config/river/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0755'
+
+- name: software | river | agetty | template
+  ansible.builtin.template:
+    src: agetty-override.conf.j2
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+    owner: root
+    group: root

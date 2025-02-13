@@ -1,0 +1,19 @@
+---
+- name: software | kanshi | install
+  community.general.rpm_ostree_pkg:
+    name: kanshi
+    state: present
+
+- name: software | kanshi | config | path
+  ansible.builtin.file:
+    path: /home/{{ user }}/.config/kanshi
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | kanshi | config | copy
+  ansible.builtin.copy:
+    src: kanshi/
+    dest: /home/{{ user }}/.config/kanshi/
+    owner: '{{ user }}'
+    group: '{{ user }}'

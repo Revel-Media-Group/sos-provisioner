@@ -1,0 +1,13 @@
+[Unit]
+Description=River Window Manager
+After=graphical.target
+
+[Service]
+ExecStart=/usr/bin/river
+Restart=always
+Environment=DISPLAY=:0
+User={{ user }}
+Environment=XDG_RUNTIME_DIR=/run/user/$(id -u {{ user }})
+
+[Install]
+WantedBy=graphical.target

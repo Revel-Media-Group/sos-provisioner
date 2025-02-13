@@ -1,0 +1,22 @@
+---
+- name: software | pipewire | install
+  community.general.rpm_ostree_pkg:
+    name:
+      - pipewire
+      - pipewire-pulseaudio
+      - pipewire-alsa
+    state: present
+    apply_live: true
+
+# he's not working. we'll come back to him
+# - name: software | pipewire | service
+#   become: true
+#   become_user: '{{ user }}'
+#   ansible.builtin.systemd:
+#     name: '{{ item }}'
+#     enabled: true
+#     state: started
+#     scope: user
+#   with_items:
+#     - pipewire
+#     - pipewire-pulse

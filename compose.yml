@@ -1,40 +1,85 @@
 ---
 volumes:
-  netbootxyz_config:
-  netbootxyz_assets:
+  tailscale:
+  guacd_drive:
+  guacd_record:
+  postgres_init:
+  postgres_data:
 
 networks:
-  netboot_network:
+  tailscale:
     driver: bridge
 
 services:
-  ansible:
-    build: docker/ansible
-    network_mode: host
-    container_name: ansible
-    volumes:
-      - .:/root/sos-provisioner
-      - ~/.ssh:/root/.ssh
-
-  dnsmasq:
-    build: docker/dnsmasq
-    container_name: dnsmasq
+  tailscale:
+    build: docker/tailscale
+    container_name: tailscale
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_STATE_DIR: ${TS_STATE_DIR}
+      TS_USERSPACE: ${TS_USERSPACE}
     networks:
-      - netboot_network
-    cap_add:
-      - NET_ADMIN
-    ports:
-      - 67:67/udp
-      - 69:69/udp
+      - tailscale
     volumes:
-      - netbootxyz_assets:/var/lib/tftpboot
-      - ./docker/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+      - tailscale:${TS_STATE_DIR}
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+
+  guacd:
+    build: docker/guacamole/guacd
+    container_name: guacd
+    depends_on:
+      - tailscale
+    networks:
+      - tailscale
+    volumes:
+      - guacd_drive:/drive:rw
+      - guacd_record:/record:rw
+
+  postgres:
+    build: docker/guacamole/postgres
+    container_name: postgres
+    depends_on:
+      - tailscale
+    environment:
+      PGDATA: /var/lib/postgresql/data/guacamole
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    networks:
+      - tailscale
+    volumes:
+      - postgres_init:/docker-entrypoint.initdb.d:ro
+      - postgres_data:/var/lib/postgresql/data:rw
+
+  guacamole:
+    build: docker/guacamole/guacamole
+    container_name: guacamole
+    depends_on:
+      - tailscale
+      - guacd
+      - postgres
+    environment:
+      GUACD_HOSTNAME: guacd
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    links:
+      - guacd
+    networks:
+      - tailscale
+    ports:
+      - 8080:8080/tcp
 
   nebootxyz:
     build: docker/netbootxyz
     container_name: netbootxyz
+    depends_on:
+      - tailscale
     networks:
-      - netboot_network
+      - tailscale
     environment:
       - PUID=1000
       - PGID=1000

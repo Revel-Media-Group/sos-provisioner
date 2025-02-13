@@ -1,0 +1,10 @@
+---
+- name: software | ghostty | repo
+  ansible.builtin.copy:
+    src: repos/ghostty.repo
+    dest: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:pgdev:ghostty.repo
+
+- name: software | ghostty | install
+  community.general.rpm_ostree_pkg:
+    name: ghostty
+    state: present

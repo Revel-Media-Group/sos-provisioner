@@ -1,0 +1,20 @@
+#!/bin/sh
+riverctl map normal Super+Shift+R spawn ~/.config/river/reload.sh
+riverctl map normal Super Q close
+riverctl map normal Super+Shift E exit
+
+# spawning terminal
+riverctl map normal Super+Shift Return spawn ghostty
+
+# spawning chromium for testing
+riverctl map normal Super+Shift B spawn chromium-browser
+
+# fullscreen all the things
+# riverctl rule-add app-id="*" state=fullscreen
+
+# set rivertile layout generator
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &
+
+# autostart all the things
+kanshi &

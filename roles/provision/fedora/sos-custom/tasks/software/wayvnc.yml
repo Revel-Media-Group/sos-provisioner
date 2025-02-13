@@ -1,0 +1,22 @@
+---
+- name: software | wayvnc | install
+  package:
+    name: wayvnc
+    state: present
+
+# openssl certificate install?
+# cd ~/.config/wayvnc
+# openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -sha384 \
+# 	-days 3650 -nodes -keyout tls_key.pem -out tls_cert.pem \
+# 	-subj /CN=localhost \
+# 	-addext subjectAltName=DNS:localhost,DNS:localhost,IP:127.0.0.1
+# cd -
+
+# configuration for wayvnc
+# use_relative_paths=true
+# address=0.0.0.0
+# enable_auth=true
+# username=luser
+# password=p455w0rd
+# private_key_file=tls_key.pem
+# certificate_file=tls_cert.pem

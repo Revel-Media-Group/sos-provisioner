@@ -6,7 +6,8 @@
     name: 2am nightly ubuntu patcher
     minute: 0
     hour: 2
-    job: ansible-pull -U {{ ansible_repo_https }} playbooks/patcher/ubuntu
+    job: ansible-pull --vault-password-file /home/revel/.vaultpass -U {{ ansible_repo_https }}
+      playbooks/patcher/ubuntu
 
 - include_tasks: config/gsettings.yml
 - include_tasks: config/update-manager.yml

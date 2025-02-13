@@ -1,0 +1,9 @@
+---
+- include_tasks: system/codecs.yml
+- include_tasks: system/pipewire.yml
+
+- include_tasks: software/toolbx.yml
+- include_tasks: software/river.yml
+- include_tasks: software/kanshi.yml
+- include_tasks: software/ghostty.yml
+- include_tasks: software/signageos.yml

@@ -1,0 +1,18 @@
+FROM registry.fedoraproject.org/fedora-toolbox:41
+
+ARG NAME=singageos
+ARG VERSION=41
+LABEL com.github.containers.toolbox="true" \
+    com.redhat.component="$NAME" \
+    name="$NAME" \
+    version="$VERSION" \
+    usage="This image is meant to be used with the toolbox command" \
+    summary="Base image for creating Fedora toolbox containers" \
+    maintainer="Jesse Garcia <jesse.garcia@revelmg.com>"
+
+COPY ./signageos.repo /etc/yum.repos.d/signageos.repo
+
+RUN dnf --assumeyes install signageos-fedora.x86_64
+
+COPY ./signageos.conf /etc/signageos/singageos.conf
+

@@ -1,0 +1,17 @@
+---
+- name: software | signageos | toolbox | copy
+  ansible.builtin.copy:
+    src: signageos/
+    dest: /home/{{ user }}/signageos/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | signageos | toolbox | config
+  ansible.builtin.template:
+    src: signageos.conf.j2
+    dest: /home/{{ user }}/signageos/signageos.conf
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | signageos | toolbox | image
+  command: podman build --tag signageos /home/revel/signageos

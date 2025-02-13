@@ -1,0 +1,5 @@
+---
+- name: software | toolbox | install
+  community.general.rpm_ostree_pkg:
+    name: toolbox
+    state: present

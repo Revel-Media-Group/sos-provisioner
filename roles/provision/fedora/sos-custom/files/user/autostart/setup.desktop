@@ -1,5 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Revel Provisioner
-Exec=ptyxis -- ansible-pull -U https://github.com/Revel-Media-Group/sos-provisioner.git -t patcher,provision,fedora,custom
+Exec=pkexec ansible-pull --vault-password-file /home/revel/.vaultpass -U https://github.com/Revel-Media-Group/sos-provisioner.git playbooks/offline/fedora/after || read -p "Installation Failed. Contact Dev Team." FAILED
 Terminal=True
