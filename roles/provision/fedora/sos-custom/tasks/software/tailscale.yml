@@ -1,0 +1,17 @@
+---
+- name: copy tailscale.repo to /etc/yum.repos.d/tailscale.repo
+  copy:
+    src: repos/tailscale.repo
+    dest: /etc/yum.repos.d/tailscale.repo
+
+- name: install tailscale
+  command: dnf install -y tailscale
+
+- name: enable/start tailscale
+  service:
+    name: tailscaled
+    enabled: true
+    state: started
+
+- name: tailscale up
+  command: tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}
