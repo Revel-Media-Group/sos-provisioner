@@ -5,14 +5,14 @@
 # key as if someone was there
 # ---------------------------------------------------------------------
 - name: sos-audio-hack | install puppeteer
-  copy:
-    src: puppeteer
-    dest: /srv/
+  ansible.builtin.copy:
+    src: puppeteer/
+    dest: /srv/puppeteer/
     owner: '{{ user }}'
     group: '{{ user }}'
 
 - name: sos-audio-hack | install revel-chromium
-  copy:
+  ansible.builtin.copy:
     src: chromium
     dest: /usr/bin/revel-chromium
     owner: root

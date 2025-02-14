@@ -5,11 +5,9 @@
     dest: /etc/yum.repos.d/signageos.repo
 
 - name: install singageos server
-  # for some reason, package is breaking on dnf :(
-  # package:
-  #   name: signageos-fedora.x86_64
-  #   state: latest
-  command: dnf install -y signageos-fedora.x86_64
+  ansible.builtin.dnf:
+    name: signageos-fedora.x86_64
+    state: present
 
 - name: configure singageos server
   template:

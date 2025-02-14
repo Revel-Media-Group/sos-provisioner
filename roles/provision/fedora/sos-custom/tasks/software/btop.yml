@@ -1,0 +1,5 @@
+---
+- name: software | btop | install
+  ansible.builtin.dnf:
+    name: btop
+    state: present

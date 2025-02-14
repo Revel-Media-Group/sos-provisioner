@@ -2,4 +2,4 @@
 - hosts: all
   become: true
   roles:
-    - provision/fedora/iot
+    - provision/fedora/sos-custom

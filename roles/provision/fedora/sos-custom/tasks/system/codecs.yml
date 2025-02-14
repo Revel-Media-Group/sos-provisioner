@@ -1,13 +1,12 @@
 ---
 - name: system | codecs | rpmfusion | install
-  community.general.rpm_ostree_pkg:
+  ansible.builtin.dnf:
     name:
       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
     state: present
-    apply_live: true
 
-- name: system | codecs | openh264 | install
+- name: software | codecs | openh264 | install
   ansible.builtin.ini_file:
     path: /etc/yum.repos.d/fedora-cisco-openh264.repo
     section: fedora-cisco-openh264
@@ -15,8 +14,12 @@
     value: '1'
     mode: '0644'
 
-- name: system | codecs | intel-media-driver | install
-  community.general.rpm_ostree_pkg:
+- name: software | codecs | multimedia | install
+  ansible.builtin.dnf:
+    name: '@multimedia'
+    state: present
+
+- name: software | codecs | intel-media-driver | install
+  ansible.builtin.dnf:
     name: intel-media-driver
     state: present
-    apply_live: true

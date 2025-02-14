@@ -1,0 +1,5 @@
+---
+- name: software | wlrctl | install
+  ansible.builtin.dnf:
+    name: wlrctl
+    state: present

@@ -8,15 +8,15 @@
     state: present
     apply_live: true
 
-# he's not working. we'll come back to him
+# broken. come back and fix me
 # - name: software | pipewire | service
 #   become: true
 #   become_user: '{{ user }}'
-#   ansible.builtin.systemd:
+#   ansible.builtin.systemd_service:
 #     name: '{{ item }}'
 #     enabled: true
 #     state: started
 #     scope: user
-#   with_items:
+#   loop:
 #     - pipewire
 #     - pipewire-pulse

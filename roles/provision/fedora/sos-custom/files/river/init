@@ -1,0 +1,44 @@
+#!/bin/sh
+riverctl map normal Control+Shift R spawn $XDG_CONFIG_DIR/river/reload
+riverctl map normal Control+Shift Q close
+riverctl map normal Control+Shift E exit
+
+for i in $(seq 1 9)
+do
+    tags=$((1 << ($i - 1)))
+    riverctl map normal Control $i set-focused-tags $tags
+done
+
+# set rivertile layout generator
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &
+
+# spawning terminal
+riverctl map normal Control Return spawn ghostty
+
+# when your down 'BAD' with configuration
+riverctl map normal Control+B spawn sh -c 'chromium-browser & riverctl set-focused-tags 1'
+riverctl map normal Control+A spawn sh -c 'pavucontrol & riverctl set-focused-tags 2'
+riverctl map normal Control+D spawn sh -c 'wdisplay & riverctl set-focused-tags 3'
+
+# audio and volume
+riverctl map normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
+riverctl map normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+riverctl map normal None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+
+
+
+# fullscreen all the things
+riverctl rule-add tags="Chromium-browser" tags=$((1 << (1 - 1)))
+riverctl rule-add tags="org.pulseaudio.pavucontrol" tags=$((1 << (2 - 1)))
+riverctl rule-add tags="" tags=3
+
+
+# hide cursor after 3000 ms
+riverctl hide-cursor timeout 3000
+
+# set audio to 50%
+pactl set-sink-volume @DEFAULT_SINK@ 50%
+
+# autostart all the things
+kanshi &

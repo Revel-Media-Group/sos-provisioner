@@ -1,9 +1,8 @@
 ---
 - name: software | kanshi | install
-  community.general.rpm_ostree_pkg:
+  ansible.builtin.dnf:
     name: kanshi
     state: present
-    apply_live: true
 
 - name: software | kanshi | config | path
   ansible.builtin.file:

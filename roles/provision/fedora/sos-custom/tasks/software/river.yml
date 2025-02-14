@@ -1,9 +1,8 @@
 ---
 - name: software | river | install
-  community.general.rpm_ostree_pkg:
+  ansible.builtin.dnf:
     name: river
     state: present
-    apply_live: true
 
 - name: software | river | config | path
   ansible.builtin.file:
@@ -23,6 +22,6 @@
 # - name: software | river | agetty | template
 #   ansible.builtin.template:
 #     src: agetty-override.conf.j2
-#     dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+#     dest: /etc/systemd/system/getty@tty1.service
 #     owner: root
 #     group: root

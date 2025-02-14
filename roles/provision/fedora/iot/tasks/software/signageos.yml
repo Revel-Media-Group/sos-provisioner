@@ -13,5 +13,5 @@
     owner: '{{ user }}'
     group: '{{ user }}'
 
-- name: software | signageos | toolbox | image
-  command: podman build --tag signageos /home/revel/signageos
+# - name: software | signageos | toolbox | image
+#   command: podman build --tag signageos /home/revel/signageos
