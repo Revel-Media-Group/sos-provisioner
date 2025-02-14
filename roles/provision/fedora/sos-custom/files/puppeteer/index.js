@@ -7,6 +7,7 @@ puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
     headless: false,
     args: [
+      "--class chromium.signageos",
       "--disable-web-security",
       "--disable-site-isolation-trials",
       "--disable-features=UseChromeOSDirectVideoDecoder",
@@ -36,6 +37,7 @@ puppeteer.use(StealthPlugin());
     ],
   });
   const page = await browser.newPage();
+
   await page.goto("file:///usr/share/signageos/client/index.html");
   await page.keyboard.press("a");
 })();

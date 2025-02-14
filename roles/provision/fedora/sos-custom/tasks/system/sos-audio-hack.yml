@@ -22,7 +22,7 @@
 - name: sos-audio-hack | ensure npm is installed
   command: dnf install -y npm
 
-- name: audio-hack | npm install puppeteer
+- name: sos-audio-hack | npm install puppeteer
   become: true
   become_user: '{{ user }}'
   command: npm --prefix /srv/puppeteer install

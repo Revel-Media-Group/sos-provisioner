@@ -2,8 +2,9 @@
 - name: system | codecs | rpmfusion | install
   ansible.builtin.dnf:
     name:
-      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
-      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm
+    disable_gpg_check: true
     state: present
 
 - name: software | codecs | openh264 | install

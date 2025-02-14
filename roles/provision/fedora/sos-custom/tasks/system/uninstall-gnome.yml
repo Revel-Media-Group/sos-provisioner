@@ -1,14 +1,17 @@
 ---
+
 - name: system | gnome | uninstall
   ansible.builtin.dnf:
-    name: '@gnome-desktop'
+    name:
+      - '@gnome-desktop'
     state: absent
   register: uninstall_gnome
 
-- name: system | gnome | kill gdm
+- name: system | gnome | stop gdm
   ansible.builtin.systemd_service:
     name: gdm.service
     state: stopped
+    enabled: false
   when: uninstall_gnome.changed
 
 - name: system | gnome | cleanup home

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+wlr-rander --json | jq '
+    foreach .[] as $output (""; '

@@ -16,8 +16,10 @@
 
 - include_tasks: software/river.yml
 
+- include_tasks: software/tmux.yml
 - include_tasks: software/neovim.yml
 - include_tasks: software/ghostty.yml
 - include_tasks: software/pavucontrol.yml
+- include_tasks: software/wdisplays.yml
 
 - include_tasks: system/sos-audio-hack.yml
