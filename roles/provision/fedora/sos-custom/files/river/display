@@ -1,4 +1,34 @@
 #!/bin/sh
+# uncomment for testing via ssh
+# export DISPLAY=:0
+# export WAYLAND_DISPLAY=wayland-1
 
-wlr-rander --json | jq '
-    foreach .[] as $output (""; '
+output () {
+    cat <<EOT
+profile * {
+    output * mode 1920x1080
+}
+EOT
+    wlr-randr --json | jq -r 'foreach .[] as $output (""; .
+    	+ "profile {\n    output "
+    	+ $output.name
+    	+ " mode "
+    	+ ($output.modes | map(select(.current == true)) | .[0].width | tostring)
+    	+ "x"
+    	+ ($output.modes | map(select(.current == true)) | .[0].height | tostring)
+    	+ "@"
+    	+ ($output.modes | map(select(.current == true)) | .[0].refresh | tostring)
+    	+ " transform "
+    	+ ($output.transform | tostring)
+    	+ " scale "
+    	+ ($output.scale | tostring)
+    	+ " position "
+    	+ ($output.position.x | tostring)
+    	+ ","
+    	+ ($output.position.y | tostring)
+    	+ "\n}"
+    )'
+}
+
+
+output > ~/.config/kanshi/config
