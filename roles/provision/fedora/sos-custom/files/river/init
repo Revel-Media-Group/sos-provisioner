@@ -1,5 +1,5 @@
 #!/bin/sh
-riverctl map normal Super+Shift R spawn "sh $XDG_CONFIG_HOME/river/init"
+riverctl map normal Super+Shift R spawn "sh ~/river/init"
 riverctl map normal Super+Shift Q close
 riverctl map normal Super+Shift E exit
 
@@ -36,7 +36,7 @@ riverctl map normal Super D spawn "sh -c 'riverctl set-focused-tags $((1 << (4 -
 # T - terminal, for good measure
 riverctl map normal Super T spawn "sh -c 'riverctl set-focused-tags $((1 << (5 - 1))) & ghostty'"
 
-riverctl map normal Super R spawn "sh $XDG_CONFIG_HOME/river/reset"
+riverctl map normal Super R spawn "sh ~/river/reset"
 
 
 # window rules
