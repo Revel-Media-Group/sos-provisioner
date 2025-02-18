@@ -16,5 +16,4 @@
     enabled: true
 
 - name: software | tailscale | register
-  command: |-
-    tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}
+  command: tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}
