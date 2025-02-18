@@ -1,0 +1,24 @@
+---
+- name: config | gsettings | disable idle screen turnoff
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/desktop/session/idle-delay
+    value: uint32 0
+    state: present
+
+- name: config | gsettings | disable suspend on AC power
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type
+    value: "'nothing'"
+    state: present
+
+- name: config | gsettings | disable suspend on battery
+  become: true
+  become_user: '{{ user }}'
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type
+    value: "'nothing'"
+    state: present

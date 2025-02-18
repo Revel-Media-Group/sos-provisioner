@@ -4,11 +4,13 @@
   register: dnf5
   changed_when: "'Nothing to do.' not in dnf5.stdout"
 
+- include_tasks: config/gsettings.yml
+- include_tasks: config/performance.yml
+
 - include_tasks: software/tailscale.yml
 
 - include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
-- include_tasks: system/performance.yml
 
 - include_tasks: software/tmux.yml
 - include_tasks: software/neovim.yml
