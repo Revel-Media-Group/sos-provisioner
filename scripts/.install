@@ -1,4 +1,9 @@
 #!/bin/sh
+# system options
+export USER=revel
+export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
+export PWD=$(pwd)
+
 # ansible opts
 export USER=revel
 export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
@@ -21,6 +26,26 @@ failed () {
 install () {
     sudo dnf install -y ansible
     sudo systemctl enable --now sshd.service
+
+
+    # install .vaultpass file from usb
+    echo "Copying vaultpass file"
+    sudo cp ./.vaultpass /home/${USER}/.vaultpass
+    sudo chmod -x /home/${USER}/.vaultpass
+
+    # TODO: when we make the repo private
+    # install .ssh keys from usb
+    # echo "Copying SSH keys file"
+    # if [ -d "$USB_SSH_PATH" ]; then
+	#     cp ./.ssh /home/${USER}/.ssh
+    #     chmod 700 /home/${USER}/.ssh
+    #     chmod 600 /home/${USER}/.ssh/id_rsa
+    #     chmod 644 /home/${USER}/.ssh/id_rsa.pub
+    # else
+    #     echo "'${USB_SSH_PATH}' folder not found."
+    #     exit 1
+    # fi
+    
 
     sudo ansible-pull \
         --vault-password-file /home/$USER/.vaultpass \
