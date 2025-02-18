@@ -58,7 +58,10 @@ setup () {
     # fi
     
     echo "Running Ansible"
-    ansible-pull -U $ANSIBLE_REPO_URL $ANSIBLE_PULL_OPTS
+    ansible-pull \
+        -i ${ANSIBLE_REPO_URL}/tree/master/inventory/production.ini \
+        -U $ANSIBLE_REPO_URL \
+        $ANSIBLE_PULL_OPTS
 }
 
 setup || failed

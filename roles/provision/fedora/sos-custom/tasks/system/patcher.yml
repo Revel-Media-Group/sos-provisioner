@@ -1,0 +1,55 @@
+---
+- name: system | patcher | ansible | install
+  ansible.builtin.dnf:
+    name: ansible
+    state: present
+
+- name: system | patcher | sshd | enabled
+  ansible.builtin.systemd_service:
+    name: sshd
+    state: started
+    enabled: true
+
+- name: system | patcher | script | install
+  ansible.builtin.template:
+    src: revel-patcher.sh.j2
+    dest: /usr/bin/revel-patcher
+    owner: root
+    group: root
+    mode: '0775'
+
+- name: system | patcher | vaultpass | install
+  ansible.builtin.copy:
+    src: '{{ playbook_dir | dirname }}/.vaultpass'
+    dest: /home/{{ user }}/.vaultpass
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0600'
+
+- name: system | patcher | anacron | install
+  ansible.builtin.dnf:
+    name: anacron
+    state: present
+
+- name: system | patcher | anacron | config
+  become: true
+  become_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/anacrontab
+    line: 1 5 myjob /usr/bin/revel-patcher
+    create: true
+
+- name: system | patcher | cron | config
+  become: true
+  become_user: root
+  ansible.builtin.cron:
+    name: 2am nightly fedora patcher
+    minute: 0
+    hour: 2
+    job: /usr/bin/revel-patcher
+
+- name: system | patcher | cron | enabled
+  ansible.builtin.systemd_service:
+    name: crond
+    state: started
+    enabled: true

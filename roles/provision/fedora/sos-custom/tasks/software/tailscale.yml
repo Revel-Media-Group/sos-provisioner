@@ -1,17 +1,20 @@
 ---
-- name: copy tailscale.repo to /etc/yum.repos.d/tailscale.repo
-  copy:
+- name: software | tailscale | repo
+  ansible.builtin.copy:
     src: repos/tailscale.repo
     dest: /etc/yum.repos.d/tailscale.repo
 
-- name: install tailscale
-  command: dnf install -y tailscale
+- name: software | tailscale | install
+  ansible.builtin.dnf:
+    name: tailscale
+    state: present
 
-- name: enable/start tailscale
+- name: software | tailscale | enable
   service:
     name: tailscaled
-    enabled: true
     state: started
+    enabled: true
 
-- name: tailscale up
-  command: tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}
+- name: software | tailscale | register
+  command: |-
+    tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}

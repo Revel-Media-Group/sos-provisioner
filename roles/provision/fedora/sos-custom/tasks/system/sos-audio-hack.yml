@@ -20,17 +20,14 @@
     mode: '0755'
 
 - name: sos-audio-hack | ensure npm is installed
-  command: dnf install -y npm
+  ansible.builtin.dnf:
+    name: npm
+    state: present
 
 - name: sos-audio-hack | npm install puppeteer
   become: true
   become_user: '{{ user }}'
   command: npm --prefix /srv/puppeteer install
-
-- name: sos-audio-hack | npx install chrome
-  become: true
-  become_user: '{{ user }}'
-  shell: yes | npx puppeteer install chrome
 
 - name: sos-audio-hack | copy/replace chromium.service
   template:

@@ -1,0 +1,9 @@
+---
+- name: system | performance | profile | get
+  command: tuned-adm list
+  register: power_profiles
+  changed_when: false
+
+- name: system | performance | profile | set
+  command: tuned-adm profile accelerator-performance
+  when: "'accelerator-performance' in power_profiles.stdout"

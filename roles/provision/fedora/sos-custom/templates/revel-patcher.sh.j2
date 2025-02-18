@@ -1,0 +1,2 @@
+#!/bin/sh
+ansible-pull --vault-password-file /home/{{ user }}/.vaultpass -U {{ ansible_repo_https }} playbooks/patcher/fedora

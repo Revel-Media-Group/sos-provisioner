@@ -1,20 +1,12 @@
 ---
-
 - name: install dnf5
   command: dnf install -y python3-libdnf5
   register: dnf5
   changed_when: "'Nothing to do.' not in dnf5.stdout"
 
-- include_tasks: system/uninstall-gnome.yml
+- include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
-
-- include_tasks: software/signageos.yml
-
-- include_tasks: software/wlr-randr.yml
-- include_tasks: software/wlrctl.yml
-- include_tasks: software/kanshi.yml
-
-- include_tasks: software/river.yml
+- include_tasks: system/performance.yml
 
 - include_tasks: software/tmux.yml
 - include_tasks: software/neovim.yml
@@ -22,4 +14,13 @@
 - include_tasks: software/pavucontrol.yml
 - include_tasks: software/wdisplays.yml
 
+- include_tasks: software/wlr-randr.yml
+- include_tasks: software/wlrctl.yml
+- include_tasks: software/kanshi.yml
+
+- include_tasks: software/tailscale.yml
+- include_tasks: software/signageos.yml
+- include_tasks: software/river.yml
 - include_tasks: system/sos-audio-hack.yml
+
+- include_tasks: system/uninstall-gnome.yml
