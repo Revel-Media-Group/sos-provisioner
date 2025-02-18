@@ -18,7 +18,6 @@ install () {
 
     sudo ansible-pull \
         --vault-password-file /home/$USER/.vaultpass \
-        -i inventory/prod \
         -U $ANSIBLE_REPO_URL \
         -e "pwd=$(pwd)" \
         $ANSIBLE_PULL_OPTS

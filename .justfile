@@ -71,8 +71,16 @@ usb:
     echo "insert empty + ext-fat formateed USB. Press Enter to continue..."
     read
     drive_path=$(find /Volumes/ -depth 1 | fzf --header="Select which drive to copy to")
-    cp .vaultpass $drive_path
+    [[ -z $drive_path ]] && exit 1
+
+    # removing
     rm -rf "$drive_path"/{.,}*
+    
+    # coping
+    cp .vaultpass $drive_path
     cp -R inventory $drive_path
     cp -a scripts/. $drive_path
+
+    # umounting
+    diskutil umount /Volumes/Untitled &> /dev/null
     echo "finished! you can unplug the usb."
