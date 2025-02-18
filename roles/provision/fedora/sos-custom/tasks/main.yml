@@ -21,6 +21,5 @@
 - include_tasks: software/ghostty.yml
 - include_tasks: software/pavucontrol.yml
 - include_tasks: software/wdisplays.yml
-- include_tasks: software/wev.yml
 
 - include_tasks: system/sos-audio-hack.yml
