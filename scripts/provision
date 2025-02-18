@@ -1,18 +1,8 @@
 #!/bin/sh
 # system options
 export USER=revel
-export PWD=$(pwd)
 export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
-
-# ansible options
-export ANSIBLE_PULL_OPTS="${@}"
-if [ -z "$ANSIBLE_PULL_OPTS" ]; then
-    ANSIBLE_PULL_OPTS=""
-fi
-
-export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
-
-export ANSIBLE_VAULT_PASSWORD_FILE=/home/$USER/.vaultpass
+export PWD=$(pwd)
 
 failed () {
     echo "Installation failed. Press Enter to exit."
@@ -24,11 +14,11 @@ ubuntu () {
     sudo apt update
     sudo apt install -y software-properties-common
     sudo add-apt-repository -y --update ppa:ansible/ansible
-    sudo apt install -y ansible git
+    sudo apt install -y ansible git tmux
 }
 
 fedora () {
-    sudo dnf install -y ansible
+    sudo dnf install -y ansible tmux
     sudo systemctl enable --now sshd.service
 }
 
@@ -57,13 +47,8 @@ setup () {
     #     exit 1
     # fi
     
-    echo "Running Ansible"
-    ansible-pull \
-        -i ${ANSIBLE_REPO_URL}/tree/master/inventory/prod \
-        -U $ANSIBLE_REPO_URL \
-        -e "pwd=${PWD}" \
-        $ANSIBLE_PULL_OPTS
+    tmux new-session -s provisioning -d "sh ${PWD}/.install"
+    tmux attach -t provisioning
 }
 
 setup || failed
-sudo reboot

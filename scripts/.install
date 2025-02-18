@@ -1,0 +1,29 @@
+#!/bin/sh
+failed () {
+    echo "Installation failed. Press Enter to exit."
+    read REPLY
+    exit 1
+}
+
+install () {
+    # ansible opts
+    export USER=revel
+    export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
+
+    # ansible pull opts
+    export ANSIBLE_PULL_OPTS="${@}"
+    if [ -z "$ANSIBLE_PULL_OPTS" ]; then
+        ANSIBLE_PULL_OPTS=""
+    fi
+
+    sudo ansible-pull \
+        --vault-password-file /home/$USER/.vaultpass \
+        -i ${ANSIBLE_REPO_URL}/tree/master/inventory/prod \
+        -U $ANSIBLE_REPO_URL \
+        -e "pwd=$(pwd)" \
+        $ANSIBLE_PULL_OPTS
+}
+
+install || failed
+sudo reboot
+
