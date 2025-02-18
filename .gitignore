@@ -2,17 +2,19 @@
 /.vaultpass
 /vaultpass
 /packer/output
-/inventory/*
 .DS_Store
 venv
 .venv
 .env
 docs/output
 
-# include
-!/inventory/*/
-!/inventory/group_vars/*/
-!/inventory/host_vars/*/
-!/inventory/production.ini
-!/inventory/staging.ini
+# ignore everything in inventory
+inventory/*
 
+# except group_vars dirs and files
+!inventory/**/group_vars/
+!inventory/**/group_vars/*
+
+# except host_vars dirs and files
+!inventory/**/host_vars/
+!inventory/**/host_vars/*

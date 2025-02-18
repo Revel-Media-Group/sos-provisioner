@@ -59,7 +59,7 @@ setup () {
     
     echo "Running Ansible"
     ansible-pull \
-        -i ${ANSIBLE_REPO_URL}/tree/master/inventory/production.ini \
+        -i ${ANSIBLE_REPO_URL}/tree/master/inventory/prod \
         -U $ANSIBLE_REPO_URL \
         -e "pwd=${PWD}" \
         $ANSIBLE_PULL_OPTS
