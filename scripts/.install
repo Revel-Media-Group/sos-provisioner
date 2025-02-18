@@ -1,20 +1,26 @@
 #!/bin/sh
+# ansible opts
+export USER=revel
+export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
+
+# ansible pull opts
+export ANSIBLE_PULL_OPTS="${@}"
+if [ -z "$ANSIBLE_PULL_OPTS" ]; then
+    ANSIBLE_PULL_OPTS=""
+fi
+
 failed () {
-    echo "Installation failed. Press Enter to exit."
+    echo "Installation failed. Please grab dev to resolve issue."
     read REPLY
     exit 1
 }
 
-install () {
-    # ansible opts
-    export USER=revel
-    export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
 
-    # ansible pull opts
-    export ANSIBLE_PULL_OPTS="${@}"
-    if [ -z "$ANSIBLE_PULL_OPTS" ]; then
-        ANSIBLE_PULL_OPTS=""
-    fi
+
+
+install () {
+    sudo dnf install -y ansible
+    sudo systemctl enable --now sshd.service
 
     sudo ansible-pull \
         --vault-password-file /home/$USER/.vaultpass \

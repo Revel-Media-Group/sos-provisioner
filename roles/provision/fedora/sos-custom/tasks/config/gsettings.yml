@@ -1,4 +1,11 @@
 ---
+- name: config | gsettings | pip install psutil
+  become: true
+  become_user: '{{ user }}'
+  pip:
+    name: psutil
+    state: present
+
 - name: config | gsettings | disable idle screen turnoff
   become: true
   become_user: '{{ user }}'
