@@ -1,0 +1,28 @@
+#!/bin/sh
+
+toggl () {
+    if ! pgrep -x "$1" > /dev/null; then
+        ${@:1}
+    else
+        echo "my_program is already running"
+    fi
+}
+
+focus () {
+    riverctl set-focused-tags $((1 << ($1 - 1)))
+}
+
+togus () {
+    focus $1
+    toggl ${@:2}
+}
+
+
+case $1 in
+    'toggl') toggl ${@:2} ;;
+    'focus') focus ${@:2} ;;
+    'togus') togus ${@:2} ;;
+    'techole') echo "techole, techole, techole..." ;;
+    *) ${@:2} ;;
+esac
+

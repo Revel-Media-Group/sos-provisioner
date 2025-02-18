@@ -1,0 +1,5 @@
+---
+- name: software | wev | install
+  ansible.builtin.dnf:
+    name: wev
+    state: present

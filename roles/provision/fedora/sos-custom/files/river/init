@@ -1,5 +1,6 @@
 #!/bin/sh
-riverctl map normal Super+Shift R spawn "sh ~/river/init"
+# system configurations
+riverctl map normal Super+Shift R spawn "sh ~/.config/river/init"
 riverctl map normal Super+Shift Q close
 riverctl map normal Super+Shift E exit
 
@@ -14,9 +15,6 @@ do
     riverctl map normal Super $i set-focused-tags $tags
 done
 
-# terminal for debugging 
-riverctl map normal Super Return spawn ghostty
-
 # audio and volume keybindings
 riverctl map normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
 riverctl map normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
@@ -27,30 +25,20 @@ pactl set-sink-volume @DEFAULT_SINK@ 100%
 # when your down 'B A D' with configuration
 
 # B - browser
-riverctl map normal Super B spawn "sh -c 'riverctl set-focused-tags $((1 << (2 - 1))) & chromium-browser'"
+riverctl map normal Super B spawn "sh ~/.config/river/launch togus 2 chromium-browser"
 # A - audio
-riverctl map normal Super A spawn "sh -c 'riverctl set-focused-tags $((1 << (3 - 1))) & pavucontrol'"
+riverctl map normal Super A spawn "sh ~/.config/river/launch togus 3 pavucontrol"
 # D - display
-riverctl map normal Super D spawn "sh -c 'riverctl set-focused-tags $((1 << (4 - 1))) & wdisplays'"
+riverctl map normal Super D spawn "sh ~/.config/river/launch togus 4 wdisplays"
 
+# S - save the configuration and reset the player
+riverctl map normal Super S spawn "sh ~/.config/river/save"
 # T - terminal, for good measure
-riverctl map normal Super T spawn "sh -c 'riverctl set-focused-tags $((1 << (5 - 1))) & ghostty'"
+riverctl map normal Super T spawn "sh ~/.config/river/launch togus 5 ghostty"
 
-riverctl map normal Super R spawn "sh ~/river/reset"
-
-
-# window rules
-riverctl rule-add tags="chromium.signageos" tags=$((1 << (1 - 1)))
- 
-# 'B A D' window rules
-riverctl rule-add tags="Chromium-browser" tags=$((1 << (2 - 1)))
-riverctl rule-add tags="org.pulseaudio.pavucontrol" tags=$((1 << (3 - 1)))
-riverctl rule-add tags="wdisplays" tags=$((1 << (4 - 1)))
-riverctl rule-add tags="com.mitchellh.ghostty" tags=$((1 << (5 - 1)))
 
 # hide cursor after 3000 ms
 riverctl hide-cursor timeout 3000
-
 
 # autostart all the things
 kanshi &

@@ -7,7 +7,7 @@
     state: absent
   register: uninstall_gnome
 
-- name: system | gnome | stop gdm
+- name: system | gnome | stop + disable gdm
   ansible.builtin.systemd_service:
     name: gdm.service
     state: stopped
