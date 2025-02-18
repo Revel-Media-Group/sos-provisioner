@@ -13,4 +13,6 @@ docs/output
 !/inventory/*/
 !/inventory/group_vars/*/
 !/inventory/host_vars/*/
+!/inventory/production.ini
+!/inventory/staging.ini
 
