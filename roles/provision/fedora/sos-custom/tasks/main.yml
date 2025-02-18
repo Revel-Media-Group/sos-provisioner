@@ -18,8 +18,7 @@
 - include_tasks: software/wlrctl.yml
 - include_tasks: software/kanshi.yml
 
-# TODO: fix tailscale
-# - include_tasks: software/tailscale.yml
+- include_tasks: software/tailscale.yml
 - include_tasks: software/signageos.yml
 - include_tasks: software/river.yml
 - include_tasks: system/sos-audio-hack.yml
