@@ -72,5 +72,6 @@ usb:
     read
     drive_path=$(find /Volumes/ -depth 1 | fzf --header="Select which drive to copy to")
     cp .vaultpass $drive_path
+    cp -R inventory $drive_path
     cp -a scripts/. $drive_path
     echo "finished! you can unplug the usb."

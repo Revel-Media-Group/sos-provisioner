@@ -4,6 +4,8 @@
   register: dnf5
   changed_when: "'Nothing to do.' not in dnf5.stdout"
 
+- include_tasks: software/tailscale.yml
+
 - include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
 - include_tasks: system/performance.yml
@@ -18,7 +20,6 @@
 - include_tasks: software/wlrctl.yml
 - include_tasks: software/kanshi.yml
 
-- include_tasks: software/tailscale.yml
 - include_tasks: software/signageos.yml
 - include_tasks: software/river.yml
 - include_tasks: system/sos-audio-hack.yml
