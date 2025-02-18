@@ -1,0 +1,8 @@
+#!/bin/sh
+~/.config/river/display save
+
+ps -u $(whoami) -o pid,command \
+        | grep -E "(chromium-browser|pavucontrol|wdisplays|ghostty)" \
+        | awk '{print $1}' \
+        | xargs kill;
+riverctl set-focused-tags $((1 << (1 - 1)))

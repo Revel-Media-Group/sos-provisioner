@@ -1,0 +1,5 @@
+---
+- name: software | pavucontrol | install
+  ansible.builtin.dnf:
+    name: pavucontrol
+    state: present

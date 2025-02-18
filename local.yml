@@ -1,20 +1,8 @@
 ---
 - hosts: localhost
   become: true
-  tags:
-    - patcher
-    - ubuntu
   roles:
-    - patcher/ubuntu
-
-- hosts: localhost
-  become: true
-  tags:
-    - provision
-    - ubuntu
-    - official
-  roles:
-    - provision/ubuntu/sos-official
+    - provision/fedora/sos-custom
 
 # saving him for later, we need to get updated ansible for this guy to work
 # rescue:

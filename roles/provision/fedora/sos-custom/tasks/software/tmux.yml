@@ -1,0 +1,5 @@
+---
+- name: software | tmux | install
+  ansible.builtin.dnf:
+    name: tmux
+    state: present

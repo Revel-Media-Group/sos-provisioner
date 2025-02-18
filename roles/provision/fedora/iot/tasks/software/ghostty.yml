@@ -8,3 +8,4 @@
   community.general.rpm_ostree_pkg:
     name: ghostty
     state: present
+    apply_live: true

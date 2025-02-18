@@ -1,0 +1,5 @@
+---
+- name: software | wdisplays | install
+  ansible.builtin.dnf:
+    name: wdisplays
+    state: present

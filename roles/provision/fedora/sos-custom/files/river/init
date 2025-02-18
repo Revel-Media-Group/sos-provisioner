@@ -1,0 +1,44 @@
+#!/bin/sh
+# system configurations
+riverctl map normal Super+Shift R spawn "sh ~/.config/river/init"
+riverctl map normal Super+Shift Q close
+riverctl map normal Super+Shift E exit
+
+# set rivertile layout generator
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &
+
+# tags
+for i in $(seq 1 9)
+do
+    tags=$((1 << ($i - 1)))
+    riverctl map normal Super $i set-focused-tags $tags
+done
+
+# audio and volume keybindings
+riverctl map normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
+riverctl map normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+riverctl map normal None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+
+pactl set-sink-volume @DEFAULT_SINK@ 100%
+
+# when your down 'B A D' with configuration
+
+# B - browser
+riverctl map normal Super B spawn "sh ~/.config/river/launch togus 2 chromium-browser"
+# A - audio
+riverctl map normal Super A spawn "sh ~/.config/river/launch togus 3 pavucontrol"
+# D - display
+riverctl map normal Super D spawn "sh ~/.config/river/launch togus 4 wdisplays"
+
+# S - save the configuration and reset the player
+riverctl map normal Super S spawn "sh ~/.config/river/save"
+# T - terminal, for good measure
+riverctl map normal Super T spawn "sh ~/.config/river/launch togus 5 ghostty"
+
+
+# hide cursor after 3000 ms
+riverctl hide-cursor timeout 3000
+
+# autostart all the things
+kanshi &

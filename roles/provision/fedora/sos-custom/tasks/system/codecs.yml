@@ -1,0 +1,26 @@
+---
+- name: system | codecs | rpmfusion | install
+  ansible.builtin.dnf:
+    name:
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm
+    disable_gpg_check: true
+    state: present
+
+- name: system | codecs | openh264 | install
+  ansible.builtin.ini_file:
+    path: /etc/yum.repos.d/fedora-cisco-openh264.repo
+    section: fedora-cisco-openh264
+    option: enabled
+    value: '1'
+    mode: '0644'
+
+- name: system | codecs | multimedia | install
+  ansible.builtin.dnf:
+    name: '@multimedia'
+    state: present
+
+- name: system | codecs | intel-media-driver | install
+  ansible.builtin.dnf:
+    name: intel-media-driver
+    state: present

@@ -1,0 +1,9 @@
+---
+- name: software | ghostty | copr
+  community.general.copr:
+    name: pgdev/ghostty
+
+- name: software | ghostty | install
+  ansible.builtin.dnf:
+    name: ghostty
+    state: present

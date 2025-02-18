@@ -1,0 +1,51 @@
+---
+- name: software | river | install
+  ansible.builtin.dnf:
+    name: river
+    state: present
+
+- name: software | river | config | path
+  ansible.builtin.file:
+    path: /home/{{ user }}/.config/river
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | river | config | copy
+  ansible.builtin.copy:
+    src: river/
+    dest: /home/{{ user }}/.config/river/
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0755'
+
+- name: software | river | profile | install
+  ansible.builtin.copy:
+    src: profile
+    dest: /home/{{ user }}/.bash_profile
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: software | river | getty@tty1 | path
+  ansible.builtin.file:
+    path: /etc/systemd/system/getty@tty1.service.d
+    state: directory
+    owner: root
+    group: root
+
+- name: software | river | getty@tty1 | override
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=-/sbin/agetty --autologin {{ user }} --noclear %I $TERM
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: software | river | getty@tty1 | restart
+  ansible.builtin.systemd_service:
+    name: getty@tty1.service
+    state: restarted
+    daemon_reload: true

@@ -5,6 +5,7 @@
       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version | regex_replace('\..*', '') }}.noarch.rpm
     state: present
+    apply_live: true
 
 - name: system | codecs | openh264 | install
   ansible.builtin.ini_file:
@@ -18,3 +19,4 @@
   community.general.rpm_ostree_pkg:
     name: intel-media-driver
     state: present
+    apply_live: true

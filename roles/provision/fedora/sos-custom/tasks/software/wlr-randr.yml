@@ -1,0 +1,5 @@
+---
+- name: software | wlr-randr | install
+  ansible.builtin.dnf:
+    name: wlr-randr
+    state: present

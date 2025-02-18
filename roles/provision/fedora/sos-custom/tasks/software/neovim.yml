@@ -1,0 +1,5 @@
+---
+- name: software | neovim | install
+  ansible.builtin.dnf:
+    name: neovim
+    state: present

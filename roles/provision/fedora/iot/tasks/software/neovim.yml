@@ -1,6 +1,6 @@
 ---
-- name: software | toolbox | install
+- name: software | neovim | install
   community.general.rpm_ostree_pkg:
-    name: toolbox
+    name: neovim
     state: present
     apply_live: true

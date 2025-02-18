@@ -1,0 +1,44 @@
+#!/bin/sh
+[ -z "$DISPLAY" ] && export DISPLAY=:0
+[ -z "$WAYLAND_DISPLAY"] && export WAYLAND_DISPLAY=wayland-1
+
+# default profile
+default () {
+    cat <<EOT
+profile default {
+    output * mode 1920x1080
+}
+EOT
+}
+
+output () {
+    # output the current display settings foreach display
+    wlr-randr --json | jq -r 'foreach .[] as $output (""; .
+    	+ "profile {\n    output "
+    	+ $output.name
+    	+ " mode "
+    	+ ($output.modes | map(select(.current == true)) | .[0].width | tostring)
+    	+ "x"
+    	+ ($output.modes | map(select(.current == true)) | .[0].height | tostring)
+    	+ "@"
+    	+ ($output.modes | map(select(.current == true)) | .[0].refresh | tostring)
+    	+ " transform "
+    	+ ($output.transform | tostring)
+    	+ " scale "
+    	+ ($output.scale | tostring)
+    	+ " position "
+    	+ ($output.position.x | tostring)
+    	+ ","
+    	+ ($output.position.y | tostring)
+    	+ "\n}"
+    )'
+    # lastly ouptput default to 1920x1080 if no profile
+    default
+}
+
+case $1 in
+    # save the output to kanshi
+    'save') output ${@:2} > ~/.config/kanshi/config ;;
+    # debug the output if needed
+    'debug') output ${@:2} ;;
+esac
