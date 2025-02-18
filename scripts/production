@@ -7,7 +7,7 @@ export DISTRO=$(awk -F= '/^ID=/{print $2}' /etc/os-release)
 # ansible options
 export ANSIBLE_PULL_OPTS="${@}"
 if [ -z "$ANSIBLE_PULL_OPTS" ]; then
-    ANSIBLE_PULL_OPTS="-t patcher,provision,ubuntu,official"
+    ANSIBLE_PULL_OPTS=""
 fi
 
 export ANSIBLE_REPO_URL=https://github.com/Revel-Media-Group/sos-provisioner
@@ -61,6 +61,7 @@ setup () {
     ansible-pull \
         -i ${ANSIBLE_REPO_URL}/tree/master/inventory/production.ini \
         -U $ANSIBLE_REPO_URL \
+        -e "pwd=${PWD}" \
         $ANSIBLE_PULL_OPTS
 }
 

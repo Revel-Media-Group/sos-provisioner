@@ -20,7 +20,7 @@
 
 - name: system | patcher | vaultpass | install
   ansible.builtin.copy:
-    src: '{{ playbook_dir | dirname }}/.vaultpass'
+    src: '{{ pwd | default(playbook_dir | dirname) }}/.vaultpass'
     dest: /home/{{ user }}/.vaultpass
     owner: '{{ user }}'
     group: '{{ user }}'
