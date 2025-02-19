@@ -84,3 +84,25 @@ usb:
     # umounting
     diskutil umount /Volumes/Untitled &> /dev/null
     echo "finished! you can unplug the usb."
+
+secrets:
+    #!/usr/bin/env bash
+    if [ ! -f "./secrets.zip" ]; then
+        echo "please install secrets.zip: "
+        echo "https://drive.google.com/file/d/1je94U7cb1jU4wTXLFBmjTX7ce6hS3D8o/view?usp=drive_link"
+    fi
+
+    echo "installing ansible ssh keys..."
+    unzip secrets.zip ansible ansible.pub -d ~/.ssh/
+    sudo chown $(whoami) ~/.ssh/ansible ~/.ssh/ansible.pub
+    sudo chmod 600 ~/.ssh/ansible
+    sudo chmod 644 ~/.ssh/ansible.pub
+
+    echo "installing .vaultpass..."
+    unzip secrets.zip .vaultpass -d .
+    sudo chown $(whoami) ./.vaultpass
+    sudo chmod 600 ./vaultpass
+
+    echo "Installation complete"
+
+
