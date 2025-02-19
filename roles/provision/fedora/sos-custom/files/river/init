@@ -20,8 +20,6 @@ riverctl map normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFA
 riverctl map normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
 riverctl map normal None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
 
-pactl set-sink-volume @DEFAULT_SINK@ 50%
-
 # when your down 'B A D' with configuration
 
 # B - browser
