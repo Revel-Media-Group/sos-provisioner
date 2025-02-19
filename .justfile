@@ -90,19 +90,20 @@ secrets:
     if [ ! -f "./secrets.zip" ]; then
         echo "please install secrets.zip: "
         echo "https://drive.google.com/file/d/1je94U7cb1jU4wTXLFBmjTX7ce6hS3D8o/view?usp=drive_link"
+        exit 1
     fi
 
-    echo "installing ansible ssh keys..."
-    unzip secrets.zip ansible ansible.pub -d ~/.ssh/
+    echo "installing ssh keys..."
+    unzip -o secrets.zip ansible ansible.pub -d ~/.ssh/ &> /dev/null
     sudo chown $(whoami) ~/.ssh/ansible ~/.ssh/ansible.pub
     sudo chmod 600 ~/.ssh/ansible
     sudo chmod 644 ~/.ssh/ansible.pub
 
     echo "installing .vaultpass..."
-    unzip secrets.zip .vaultpass -d .
+    unzip -o secrets.zip .vaultpass -d . &> /dev/null
     sudo chown $(whoami) ./.vaultpass
-    sudo chmod 600 ./vaultpass
+    sudo chmod 600 ./.vaultpass
 
-    echo "Installation complete"
+    echo "Installation complete!"
 
 
