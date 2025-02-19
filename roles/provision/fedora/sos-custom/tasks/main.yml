@@ -10,7 +10,7 @@
 # he's still not working :(
 # - include_tasks: software/tailscale.yml
 
-- include_tasks: system/update.yml
+# - include_tasks: system/update.yml
 - include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
 
