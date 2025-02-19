@@ -31,5 +31,4 @@
 - include_tasks: system/uninstall-gnome.yml
 
 - name: reboot player
-  ansible.builtin.reboot:
-    reboot_timeout: 600
+  command: reboot
