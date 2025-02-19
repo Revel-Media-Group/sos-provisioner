@@ -14,7 +14,7 @@
 - include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
 
-- include_tasks: software/btop.ym
+- include_tasks: software/btop.yml
 - include_tasks: software/neovim.yml
 - include_tasks: software/ghostty.yml
 - include_tasks: software/pavucontrol.yml
