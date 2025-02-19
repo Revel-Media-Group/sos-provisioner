@@ -17,3 +17,5 @@
 
 - name: software | tailscale | register
   command: tailscale up --login-server {{ tailscale_login_server }} --authkey {{ tailscale_auth_key }}
+  register: tailscale_up
+  async: 30

@@ -7,7 +7,8 @@
 - include_tasks: config/gsettings.yml
 - include_tasks: config/performance.yml
 
-- include_tasks: software/tailscale.yml
+# he's still not working :(
+# - include_tasks: software/tailscale.yml
 
 - include_tasks: system/patcher.yml
 - include_tasks: system/codecs.yml
