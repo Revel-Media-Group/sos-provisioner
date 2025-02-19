@@ -2,7 +2,8 @@
 ~/.config/river/display save
 
 ps -u $(whoami) -o pid,command \
-        | grep -E "(chromium-browser|pavucontrol|wdisplays|ghostty)" \
+        | grep -E "(chromium-browser|pavucontrol|wdisplays|ghostty|kanshi)" \
         | awk '{print $1}' \
         | xargs kill;
 riverctl set-focused-tags $((1 << (1 - 1)))
+kanshi &

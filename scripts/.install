@@ -55,5 +55,4 @@ install () {
 }
 
 install || failed
-sudo reboot
-
+tmux kill-server
